@@ -30,7 +30,7 @@ LOCAL_PATH = '/tmp/'
 class Command(NoArgsCommand):
     fake_pw = 'test'
     domain_extension = 'fake'    
-    help = 'Drops local database and loads productive database and set fake emails/usernames <name>"'+domain_extension+'"<domain> and fake passwords "'+fake_pw+'"'
+    help = 'Drops local database, loads database dump and set fake emails/usernames <name>"'+domain_extension+'"<domain> and fake passwords "'+fake_pw+'"'
 
     option_list = NoArgsCommand.option_list + (
         make_option('--keep_mails', action='store_true',
