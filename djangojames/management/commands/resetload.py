@@ -33,7 +33,7 @@ class Command(NoArgsCommand):
         make_option('-i', '--ignore_reset', action='store_true', dest='ignore_reset',
             help='Do not extecute the reset command (equivalent to syncdb)'),                                                         
     )
-    help = "Drops and recreates database."
+    help = "Drops and recreates database (from jsons)."
     
     def _find_fixtures(self, start_dir):
         """ find all JSON files (except those in Unit Test Folder or initial_data) """
