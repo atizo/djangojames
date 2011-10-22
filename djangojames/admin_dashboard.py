@@ -20,13 +20,14 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-from django.utils.translation import ugettext_lazy as _
+from admin_tools.dashboard import modules, modules, Dashboard, AppIndexDashboard
+from django.conf import settings
 from django.core.urlresolvers import reverse
-from admin_tools.dashboard import modules, Dashboard, AppIndexDashboard
-
-from admin_tools.dashboard import modules
+from django.utils.importlib import import_module
+from django.utils.translation import ugettext_lazy as _
 
 class CustomIndexDashboard(Dashboard):
+    
     """
     Custom index dashboard.
     """ 
@@ -42,7 +43,6 @@ class CustomIndexDashboard(Dashboard):
         self.children.append(modules.RecentActions(
             title= _(u'Letzte Aktionen'),
             limit=5,
-            
         ))
 
         # append a link list module for "quick links"
@@ -70,17 +70,35 @@ class CustomIndexDashboard(Dashboard):
                 },
             ]
         ))
-
-        # append a feed module
-        self.children.append(modules.Feed(
-            title= _(u'Django Neuigkeiten'),
-            feed_url='http://www.djangoproject.com/rss/weblog/',
-            limit=5,
-            
-        ))
-
+        
+        self.children.append(StatisticsModule())
+        
     def init_with_context(self, context):
         """
         Use this method if you need to access the request context.
         """
         pass
+    
+def get_statistics_module():
+    mod_cls = getattr(
+        settings,
+        'JAMES_ADMIN_STATISTICS_MODULE',
+        None
+    )
+    
+    if mod_cls:
+        mod, inst = mod_cls.rsplit('.', 1)
+        mod = import_module(mod)
+        return getattr(mod, inst)
+
+class StatisticsModule(modules.LinkList):
+    title = _(u'Statistiken')
+    template  = 'djangojames/statistics_module.html'
+
+    def init_with_context(self, context):
+        module = get_statistics_module()
+        if module:
+            stats = module()
+            context['stats'] = stats
+            
+            self.children.append([])

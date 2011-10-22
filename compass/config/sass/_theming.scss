@@ -1,0 +1,85 @@
+div.float-cont{
+  @include clearfix;
+  div.left-cnt{
+    @include float-left;
+    padding-right: 10px;
+  }
+}
+
+div.hr-top {
+  border-top: 1px solid $normal-gray;
+}
+
+div.loader {
+    background: url(/static/djangojames/img/loader.gif) no-repeat 5px 4px;
+    height: 30px;
+    width: 100%;
+}
+
+div.spacer-10 {
+  height: 10px;
+  width: 100%;
+  clear: both;
+}
+
+div.spacer-20 {
+  height: 20px;
+  width: 100%;
+  clear: both;
+}
+
+div.box {
+    @include clearfix;
+    
+    &.grey {
+        background-color: $light-gray;
+    }
+
+    &.padding {
+        padding: 20px;
+        
+        &.small {
+            padding: 10px;
+        }
+    }    
+}
+
+#header {
+    background: none repeat scroll 0 0 #D8D8D8;
+    
+	#branding h1 {
+	    margin: 0;
+	    padding: 0;
+	    height: 0px;
+	    width:0px;
+	    font-size: 15px;
+	    color: #94CC3D;
+	    font-weight: bold;
+	    visibility:hidden;
+	}    
+    
+}
+
+div.breadcrumbs {
+    display: block;
+    padding: 10px 15px;
+    border: 0;
+    background-position: 0 -8px;
+    border-bottom: 1px solid #ededed;
+    a {
+        display: inline;
+    }
+}
+
+div#user-tools{
+    color: grey;
+    margin-right: 50px;  
+    
+    a {
+        color: grey;
+    }
+}
+
+#header a:link, #header a:visited {
+    color: grey;
+}

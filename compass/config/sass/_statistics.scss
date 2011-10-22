@@ -1,0 +1,133 @@
+div.statistics-graph{
+    height:330px
+}
+
+p.statistics-graph-hint{
+    padding: 10px 0px 0px 20px;
+    margin-bottom: 0;
+}
+
+div#statistics-graph-choices {
+	background-color: #fff;
+	padding: 10px;
+}
+
+div.statistics-graph-stats{
+    height: 150px;
+    margin-top: 20px;
+    padding: 10px;
+    overflow: auto;
+    display: none;
+    background-color: #fff;
+    
+    div.entry{
+        @include clearfix;
+        padding-bottom: 5px;
+        
+        &:hover{
+        	background-color: $light-gray;
+        }
+        
+        div.points{
+            @include float-left;
+            width: 32px;
+            span.grpos{
+                color:green;
+                font-weight: bold;
+            }
+            div.grpos{
+                color:green;
+                font-weight: bold;
+            }
+            div.grneg{
+                color:maroon;
+                font-weight: bold;
+            }
+        }
+        
+        div.desc{
+            @include float-left;
+            padding-left: 5px;
+        }
+    }
+}
+
+div.charts-group{
+    @include clearfix;
+    
+    div.chart{
+        @include float-left;
+    }    
+}
+
+div#stats-summery{
+    
+    min-height: 100px;
+    div {
+        padding-bottom: 5px;
+        span{
+            font-weight: bold;
+        }
+    }
+}
+
+div#base-chart {
+    height:380px;
+}
+
+table.statistics-graph-choices{
+	
+	td {		
+		text-align: left;
+		padding: 0px;
+		border-bottom: none;
+	}
+
+	td.rightChoices {
+		background-color: $light-orange;
+		&.selected{
+			background-color: $orange;
+		}
+	}
+
+	td.mainChoices {
+		background-color:#99CCFF;
+		
+		&.selected{
+			background-color:$blue;
+		} 
+	}
+
+    td.singleChoices {
+        background-color:$light-gray;
+        
+        &.selected{
+            background-color:$medium-gray;
+        } 
+    }
+
+	td.label {
+		padding-left: 5px;
+	}
+}
+
+input[type="text"].statistics_input {
+	border: 1px solid $medium-gray;
+	padding: 4px 2px;
+}
+
+a.statistics-title {
+	font-weight: bold;
+    div#main_choices{
+        @include float-left;
+        padding-right: 9px;
+        padding-left: 23px; 
+        background: url('/static/djangojames/img/main_sequence.gif') no-repeat scroll left center transparent;
+    }
+    
+    div#right_choices{
+        @include float-left;
+        padding-left: 23px;
+        background: url('/static/djangojames/img/right_sequence.gif') no-repeat scroll left center transparent;
+    }		
+}

@@ -1,0 +1,21 @@
+
+<script type="text/javascript" src="/static/djangojames/js/statistics.js"></script>
+<script src="/static/djangojames/js/highcharts/highcharts.js" type="text/javascript"></script>
+
+<input id="base-earliest_date" type="hidden" value="{{earliest_date}}"/>
+<input id="base-latest_date" type="hidden" value="{{latest_date}}"/>
+<input id="base-choice_per_col" type="hidden" value="{{choice_per_col}}"/>
+<input type="hidden" id="summery-config" value="{{summery_config}}">
+<input type="hidden" id="base-stats-config" value="{{stats_config}}">
+
+<div class="box padding">
+    <div class="box padding small grey">
+        <a class="statistics-title">
+            <div id="main_choices"></div>
+        </a>
+        <div class="spacer-10 hr-top"></div>
+        <div id="base-graph-choices" ></div>
+    </div>
+    <div class="spacer-20"></div>
+    <div id="base-chart" class="box"></div>
+</div>
