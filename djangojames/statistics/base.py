@@ -34,6 +34,7 @@ from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 import logging
 import uuid
+from django.template.defaultfilters import slugify
 
 logger = logging.getLogger(__name__)
 
@@ -44,8 +45,7 @@ class BaseStatistics(object):
     default_options = {}
 
     def __init__( self, *args, **kwargs):
-        self.prefix = str(uuid.uuid4())
-        print self.prefix
+        self.prefix = slugify(self.name)
     
     def get_statsmethod(self):
         return [(m.replace('stats_', ''), getattr(self,m)) for m in dir(self) if m.startswith('stats_')]
