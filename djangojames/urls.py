@@ -20,18 +20,18 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 from django.conf.urls.defaults import patterns, include, url
-from djangojames.admin_dashboard import get_statistics_module
+from djangojames.admin_dashboard import get_statistics_modules
 
-module = get_statistics_module()
-if module:
-    admin_stats = module()
-    urlpatterns = patterns('',
-       url(r'^statistics/', include(admin_stats.get_urls())),
+# dummy redirect
+from django.views.generic.simple import redirect_to
+urlpatterns = patterns('',
+    ('^$', redirect_to, {'url': '/'}),
+)
+
+for mod in get_statistics_modules():
+    admin_stats = mod()
+    urlpatterns += patterns('',
+       url(r'^statistics/%s/' % admin_stats.prefix, include(admin_stats.get_urls())),
     )
-else:
-    # dummy redirect
-    from django.views.generic.simple import redirect_to
-    urlpatterns = patterns('',
-        ('^$', redirect_to, {'url': '/'}),
-    )
+
     

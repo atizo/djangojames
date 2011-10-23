@@ -1,17 +1,17 @@
-<input id="base-earliest_date" type="hidden" value="{{earliest_date}}"/>
-<input id="base-latest_date" type="hidden" value="{{latest_date}}"/>
-<input id="base-choice_per_col" type="hidden" value="{{choice_per_col}}"/>
-<input type="hidden" id="summery-config" value="{{summery_config}}">
-<input type="hidden" id="base-stats-config" value="{{stats_config}}">
+<input id="base-earliest_date_{{prefix}}" type="hidden" value="{{earliest_date}}"/>
+<input id="base-latest_date_{{prefix}}" type="hidden" value="{{latest_date}}"/>
+<input id="base-choice_per_col_{{prefix}}" type="hidden" value="{{choice_per_col}}"/>
+<input id="base-stats-config_{{prefix}}" type="hidden" value="{{stats_config}}">
+<input class="stats-prefix" type="hidden" value="{{prefix}}">
 
 <div class="box padding">
     <div class="box padding small grey">
         <a class="statistics-title">
-            <div id="main_choices"></div>
+            <div class="main_choices" id="main_choices_{{prefix}}"></div>
         </a>
         <div class="spacer-10 hr-top"></div>
-        <div id="base-graph-choices" ></div>
+        <div id="base-graph-choices_{{prefix}}" ></div>
     </div>
     <div class="spacer-20"></div>
-    <div id="base-chart" class="box"></div>
+    <div class="base-chart" id="base-chart_{{prefix}}" class="box"></div>
 </div>

@@ -77,34 +77,53 @@ class CustomIndexDashboard(Dashboard):
             ]
         ))
         
-        self.children.append(StatisticsModule())
-        
+        stats_modules = get_statistics_modules()
+        if len(stats_modules) == 1:
+            sm = StatisticsModule()
+            sm.module = stats_modules[0]
+            self.children.append(sm)
+        else:
+            children = []
+            
+            for statmod in stats_modules:
+                sm = StatisticsModule()
+                sm.module = statmod   
+                children.append(sm)
+
+            self.children.append(modules.Group(
+                title=_(u'Statistiken'),
+                display="tabs",
+                children=children
+            ))
+
     def init_with_context(self, context):
         """
         Use this method if you need to access the request context.
         """
         pass
     
-def get_statistics_module():
-    mod_cls = getattr(
+def get_statistics_modules():
+    mod_clss = getattr(
         settings,
-        'JAMES_ADMIN_STATISTICS_MODULE',
+        'JAMES_ADMIN_STATISTICS_MODULES',
         None
     )
-    
-    if mod_cls:
-        mod, inst = mod_cls.rsplit('.', 1)
-        mod = import_module(mod)
-        return getattr(mod, inst)
+    mods = []
+    if mod_clss:
+        for mod_cls in mod_clss:
+            mod, inst = mod_cls.rsplit('.', 1)
+            mod = import_module(mod)
+            mods.append(getattr(mod, inst))
+
+    return mods
 
 class StatisticsModule(modules.LinkList):
     title = _(u'Statistiken')
     template  = 'djangojames/statistics_module.html'
 
     def init_with_context(self, context):
-        module = get_statistics_module()
-        if module:
-            stats = module()
-            context['stats'] = stats
-            
-            self.children.append([])
+        stats = self.module()
+        if stats.name:
+            self.title = stats.name
+        context['stats'] = stats
+        self.children.append([])

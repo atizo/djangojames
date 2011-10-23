@@ -7,11 +7,6 @@ p.statistics-graph-hint{
     margin-bottom: 0;
 }
 
-div#statistics-graph-choices {
-	background-color: #fff;
-	padding: 10px;
-}
-
 div.statistics-graph-stats{
     height: 150px;
     margin-top: 20px;
@@ -60,18 +55,7 @@ div.charts-group{
     }    
 }
 
-div#stats-summery{
-    
-    min-height: 100px;
-    div {
-        padding-bottom: 5px;
-        span{
-            font-weight: bold;
-        }
-    }
-}
-
-div#base-chart {
+div.base-chart {
     height:380px;
 }
 
@@ -118,14 +102,14 @@ input[type="text"].statistics_input {
 
 a.statistics-title {
 	font-weight: bold;
-    div#main_choices{
+    div.main_choices{
         @include float-left;
         padding-right: 9px;
         padding-left: 23px; 
         background: url('/static/djangojames/img/main_sequence.gif') no-repeat scroll left center transparent;
     }
     
-    div#right_choices{
+    div.right_choices{
         @include float-left;
         padding-left: 23px;
         background: url('/static/djangojames/img/right_sequence.gif') no-repeat scroll left center transparent;

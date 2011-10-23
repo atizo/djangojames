@@ -1,7 +1,7 @@
 djangojames = {};
 djangojames.statistics = {};
-djangojames.statistics.config = null;
-djangojames.statistics.chart = null;
+djangojames.statistics.config = {};
+djangojames.statistics.chart = {};
 djangojames.statistics.formatter = {};
 djangojames.statistics.formatter.column = function() {
     return '' + this.x + '<br><b>' + this.series.name + '</b>: ' + this.y + ' (' + Math.round(this.percentage) + '%)';
@@ -15,13 +15,15 @@ djangojames.statistics.formatter.line = function() {
 };
 
 djangojames.statistics.options = {
-    height : 200,
+    
     credits : {
         enabled : false
     },
     chart : {
         renderTo : 'base-chart',
-        defaultSeriesType : 'column'
+        defaultSeriesType : 'column',
+        height : 380,
+        width: 620
     },
     title : {
         text : ''
@@ -53,11 +55,7 @@ djangojames.statistics.options = {
         }
     },
 
-    series : [],
-    exporting : {
-        enabled : false,
-        url : $('input#highchart-exporting-url').val()
-    }
+    series : []
 };
 
 djangojames.statistics.pushData = function(name, data, type, options) {
@@ -69,8 +67,10 @@ djangojames.statistics.pushData = function(name, data, type, options) {
 };
 
 djangojames.statistics.cache = {};
-djangojames.statistics.loadChart = function(config, series) {
+djangojames.statistics.loadChart = function(config, series, prefix) {
+	
     var options = $.extend(true, {}, djangojames.statistics.options, config.options);
+    options.chart.renderTo = options.chart.renderTo + prefix;
     options.tooltip.formatter = djangojames.statistics.formatter[config.type.name];
 
     if(config.multiple_series) {
@@ -80,26 +80,30 @@ djangojames.statistics.loadChart = function(config, series) {
     } else {
         djangojames.statistics.pushData(config.label, series, config.type, options);
     }
-    $("#main_choices").text(config.label);
-
-    djangojames.statistics.chart = new Highcharts.Chart(options);
-
+    $("#main_choices"+prefix).text(config.label);
+    djangojames.statistics.chart[prefix] = new Highcharts.Chart(options);
     $('td.singleChoices.selected').removeClass('selected');
     $('input:checked').parent().addClass('selected');
-    $('#base-chart').removeClass('loader');
+    $('#base-chart'+prefix).removeClass('loader');
+};
+
+djangojames.statistics.extract_prefix = function(target_id) {
+	return '_' + target_id.split('_')[1];
 };
 
 djangojames.statistics.clickChoice = function(event) {
-    djangojames.statistics.chart && djangojames.statistics.chart.destroy();
-    djangojames.statistics.chart = null;
-
-    $('#base-chart').addClass('loader');
 
     var config_id = event.target.id.replace('id_base_', '');
-    var config = djangojames.statistics.config[config_id];
+    var prefix = djangojames.statistics.extract_prefix(config_id);	
+	
+    djangojames.statistics.chart[prefix] && djangojames.statistics.chart[prefix].destroy();
+    djangojames.statistics.chart[prefix] = null;
+
+    $('#base-chart'+prefix).addClass('loader');
+    var config = djangojames.statistics.config[prefix][config_id];
 
     if(djangojames.statistics.cache[config_id]) {
-        djangojames.statistics.loadChart(config, djangojames.statistics.cache[config_id]);
+        djangojames.statistics.loadChart(config, djangojames.statistics.cache[config_id], prefix);
     } else {
         $.ajax({
             context : {
@@ -109,32 +113,28 @@ djangojames.statistics.clickChoice = function(event) {
             method : 'GET',
             dataType : 'json',
             success : function(series) {
-                djangojames.statistics.cache[config_id] = series;
-                djangojames.statistics.loadChart(config, series);
-                //djangojames.loader.hide();
+            	
+            	if (series.length > 0) {
+            		djangojames.statistics.cache[config_id] = series;
+            	}
+                djangojames.statistics.loadChart(config, series, prefix);
             }
         });
     }
 };
 
-djangojames.statistics.loadSummery = function(url) {
-    $('#stats-summery').addClass('loader');
-    $.getJSON(url, function(series){
-        $('#stats-summery').jqoteapp('#tmpl-stats-summery', series).removeClass('loader');
-    });
-};
-
 $(document).ready(function(){
-	if ($('#base-stats-config').length > 0) {
-	    djangojames.statistics.config = JSON.parse($('#base-stats-config').val());
-	    var summery_config = JSON.parse($('#summery-config').val());
-	    var choice_per_col = parseInt($("#base-choice_per_col").val(), 10);
+	$.each($('.stats-prefix'), function(index, value) { 
+		var prefix = '_' + $(value).val();
+
+	    djangojames.statistics.config[prefix] = JSON.parse($('#base-stats-config'+prefix).val());
+	    var choice_per_col = parseInt($("#base-choice_per_col"+prefix).val(), 10);
 	
-	    var choiceContainer = $("#base-graph-choices");
+	    var choiceContainer = $("#base-graph-choices"+prefix);
 	    var html = '<div class="float-cont"><div class="left-cnt"><table class="statistics-graph-choices"><tbody>';
 	    var i = 0;
 	    var main_checked = false;
-	    $.each(djangojames.statistics.config, function(key, val) {
+	    $.each(djangojames.statistics.config[prefix], function(key, val) {
 	        var checked = '';
 	        if(val.selected === true) {
 	            checked = ' checked="checked" ';
@@ -143,17 +143,13 @@ $(document).ready(function(){
 	            html += '</tbody></table></div>';
 	            html += '<div class="left-cnt"><table class="statistics-graph-choices"><tbody>';
 	        }
-	        html += ('<tr><td class=""><input type="radio" name="base" ' + checked + 'id="id_base_' + key + '"></td>' + '<td class="label"><label>' + val.label + '</label></td></tr>');
+	        html += ('<tr><td class=""><input type="radio" name="' + prefix + '" ' + checked + 'id="id_base_' + key + '"></td>' + '<td class="label"><label>' + val.label + '</label></td></tr>');
 	        i += 1;
 	
 	    });
 	    html += '</tbody></table></div></div>';
 	    choiceContainer.append(html);
-	    choiceContainer.find('input').click(djangojames.statistics.clickChoice);
-	    choiceContainer.find("input:checked").click();
-	
-	    if(summery_config.url) {
-	        djangojames.statistics.loadSummery(summery_config.url);
-	    }	
-	}
+	    choiceContainer.find('input[name='+prefix+']').click(djangojames.statistics.clickChoice);
+	    choiceContainer.find('input[name='+prefix+']:checked').click();
+	});
 });

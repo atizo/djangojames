@@ -1,6 +1,6 @@
 {% load i18n admin_tools_dashboard_tags %}
 <script type="text/javascript" src="{{ media_url }}/admin_tools/js/utils.js"></script>
-
+<script src="/static/djangojames/js/highcharts/highcharts.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
     // Load js files syncronously and conditionally
 
@@ -46,7 +46,6 @@
         });
     });
 </script>
-<script src="/static/djangojames/js/highcharts/highcharts.js" type="text/javascript"></script>
 {% if dashboard.title %}
 <h1 class="dashboard-title">{{ dashboard.title }}</h1>
 {% endif %}

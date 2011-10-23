@@ -4,8 +4,6 @@ div.statistics-graph { height: 330px; }
 
 p.statistics-graph-hint { padding: 10px 0px 0px 20px; margin-bottom: 0; }
 
-div#statistics-graph-choices { background-color: #fff; padding: 10px; }
-
 div.statistics-graph-stats { height: 150px; margin-top: 20px; padding: 10px; overflow: auto; display: none; background-color: #fff; }
 div.statistics-graph-stats div.entry { overflow: hidden; *zoom: 1; padding-bottom: 5px; }
 div.statistics-graph-stats div.entry:hover { background-color: #f5f5f5; }
@@ -18,11 +16,7 @@ div.statistics-graph-stats div.entry div.desc { display: inline; float: left; pa
 div.charts-group { overflow: hidden; *zoom: 1; }
 div.charts-group div.chart { display: inline; float: left; }
 
-div#stats-summery { min-height: 100px; }
-div#stats-summery div { padding-bottom: 5px; }
-div#stats-summery div span { font-weight: bold; }
-
-div#base-chart { height: 380px; }
+div.base-chart { height: 380px; }
 
 table.statistics-graph-choices td { text-align: left; padding: 0px; border-bottom: none; }
 table.statistics-graph-choices td.rightChoices { background-color: #ffa000; }
@@ -36,8 +30,8 @@ table.statistics-graph-choices td.label { padding-left: 5px; }
 input[type="text"].statistics_input { border: 1px solid #aaaaaa; padding: 4px 2px; }
 
 a.statistics-title { font-weight: bold; }
-a.statistics-title div#main_choices { display: inline; float: left; padding-right: 9px; padding-left: 23px; background: url("/static/djangojames/img/main_sequence.gif") no-repeat scroll left center transparent; }
-a.statistics-title div#right_choices { display: inline; float: left; padding-left: 23px; background: url("/static/djangojames/img/right_sequence.gif") no-repeat scroll left center transparent; }
+a.statistics-title div.main_choices { display: inline; float: left; padding-right: 9px; padding-left: 23px; background: url("/static/djangojames/img/main_sequence.gif") no-repeat scroll left center transparent; }
+a.statistics-title div.right_choices { display: inline; float: left; padding-left: 23px; background: url("/static/djangojames/img/right_sequence.gif") no-repeat scroll left center transparent; }
 
 div.float-cont { overflow: hidden; *zoom: 1; }
 div.float-cont div.left-cnt { display: inline; float: left; padding-right: 10px; }

@@ -33,13 +33,19 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 import logging
+import uuid
 
 logger = logging.getLogger(__name__)
 
 class BaseStatistics(object):
     
+    name = _(u'Statistiken')
     render_template = 'djangojames/statistics.html'
     default_options = {}
+
+    def __init__( self, *args, **kwargs):
+        self.prefix = str(uuid.uuid4())
+        print self.prefix
     
     def get_statsmethod(self):
         return [(m.replace('stats_', ''), getattr(self,m)) for m in dir(self) if m.startswith('stats_')]
@@ -66,6 +72,10 @@ class BaseStatistics(object):
 
     @classmethod
     def datetime_to_stamp(cls, a_datetime):
+        
+        if isinstance(a_datetime, unicode):
+            a_datetime = BaseStatistics.str_to_date(a_datetime)
+
         a_datetime = a_datetime + datetime.timedelta(days=1)
         if isinstance(a_datetime, datetime.datetime):
             return time.mktime(a_datetime.replace(hour=0, minute=0, second=0, microsecond=0).timetuple()) * 1000
@@ -92,12 +102,8 @@ class BaseStatistics(object):
         context['earliest_date'] = '-3years'
         context['latest_date'] = '+2years'
         context['choice_per_col'] = '3'
-        context['summery_config'] = '{}'
-        #context['highchartexporturl'] = reverse('export-highchart')
-
-        if hasattr(self, 'summary'):
-            context['summery_config'] = simplejson.dumps({'url': self.get_data_url('summary')})
-            
+        context['prefix'] = self.prefix
+        
         if hasattr(self, 'get_extra_config'):
             context.update(self.get_extra_config())
 
@@ -119,7 +125,7 @@ class BaseStatistics(object):
         config_lists=sorted(config_lists, key=lambda aconfig: aconfig['index'])
         configs = SortedDict()        
         for aconfig in config_lists:
-            configs[aconfig['name']] = aconfig
+            configs['%s_%s' % (aconfig['name'], self.prefix)] = aconfig
             
         return configs
     
@@ -196,9 +202,6 @@ class BaseSequenceStatistics(BaseStatistics):
         .values(new_name).annotate(created_count=Count('id')).order_by(new_name)
 
         for idict in queryset:
-            logger.info(idict)
-            logger.info(idict[new_name])
-            logger.info(type(idict[new_name]))
             stamp = self.datetime_to_stamp(idict[new_name])
             timeline_dict[stamp] = idict['created_count']
     
@@ -267,7 +270,7 @@ class BaseFractionStatistics(BaseStatistics):
 class BaseGoogleAnalyticsStatistics(BaseFractionStatistics):
     # http://code.google.com/intl/de-CH/apis/analytics/docs/gdata/gdataReferenceDimensionsMetrics.html
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super(BaseGoogleAnalyticsStatistics, self).__init__()
         self._account = None
         self.filters = []
