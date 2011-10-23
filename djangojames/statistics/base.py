@@ -45,7 +45,7 @@ class BaseStatistics(object):
     default_options = {}
 
     def __init__( self, *args, **kwargs):
-        self.prefix = slugify(self.name)
+        self.prefix = slugify(self.__class__.__name__)
     
     def get_statsmethod(self):
         return [(m.replace('stats_', ''), getattr(self,m)) for m in dir(self) if m.startswith('stats_')]
