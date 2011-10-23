@@ -33,7 +33,6 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 import logging
-import uuid
 from django.template.defaultfilters import slugify
 
 logger = logging.getLogger(__name__)
