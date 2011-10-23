@@ -124,35 +124,36 @@ djangojames.statistics.loadSummery = function(url) {
     });
 };
 
-if ($('#base-stats-config').length > 0) {
-    djangojames.statistics.config = JSON.parse($('#base-stats-config').val());
-    var summery_config = JSON.parse($('#summery-config').val());
-    var choice_per_col = parseInt($("#base-choice_per_col").val(), 10);
-
-    var choiceContainer = $("#base-graph-choices");
-    var html = '<div class="float-cont"><div class="left-cnt"><table class="statistics-graph-choices"><tbody>';
-    var i = 0;
-    var main_checked = false;
-    $.each(djangojames.statistics.config, function(key, val) {
-        var checked = '';
-        if(val.selected === true) {
-            checked = ' checked="checked" ';
-        }
-        if(i % choice_per_col === 0 && i > 0) {
-            html += '</tbody></table></div>';
-            html += '<div class="left-cnt"><table class="statistics-graph-choices"><tbody>';
-        }
-        html += ('<tr><td class=""><input type="radio" name="base" ' + checked + 'id="id_base_' + key + '"></td>' + '<td class="label"><label>' + val.label + '</label></td></tr>');
-        i += 1;
-
-    });
-    html += '</tbody></table></div></div>';
-    choiceContainer.append(html);
-    choiceContainer.find('input').click(djangojames.statistics.clickChoice);
-    choiceContainer.find("input:checked").click();
-
-    if(summery_config.url) {
-        djangojames.statistics.loadSummery(summery_config.url);
-    }	
-}
-
+$(document).ready(function(){
+	if ($('#base-stats-config').length > 0) {
+	    djangojames.statistics.config = JSON.parse($('#base-stats-config').val());
+	    var summery_config = JSON.parse($('#summery-config').val());
+	    var choice_per_col = parseInt($("#base-choice_per_col").val(), 10);
+	
+	    var choiceContainer = $("#base-graph-choices");
+	    var html = '<div class="float-cont"><div class="left-cnt"><table class="statistics-graph-choices"><tbody>';
+	    var i = 0;
+	    var main_checked = false;
+	    $.each(djangojames.statistics.config, function(key, val) {
+	        var checked = '';
+	        if(val.selected === true) {
+	            checked = ' checked="checked" ';
+	        }
+	        if(i % choice_per_col === 0 && i > 0) {
+	            html += '</tbody></table></div>';
+	            html += '<div class="left-cnt"><table class="statistics-graph-choices"><tbody>';
+	        }
+	        html += ('<tr><td class=""><input type="radio" name="base" ' + checked + 'id="id_base_' + key + '"></td>' + '<td class="label"><label>' + val.label + '</label></td></tr>');
+	        i += 1;
+	
+	    });
+	    html += '</tbody></table></div></div>';
+	    choiceContainer.append(html);
+	    choiceContainer.find('input').click(djangojames.statistics.clickChoice);
+	    choiceContainer.find("input:checked").click();
+	
+	    if(summery_config.url) {
+	        djangojames.statistics.loadSummery(summery_config.url);
+	    }	
+	}
+});

@@ -28,6 +28,12 @@ from django.utils.translation import ugettext_lazy as _
 
 class CustomIndexDashboard(Dashboard):
     
+    template = 'djangojames/dashboard.html'
+
+    class Media:
+        css = ()#('djangojames/css/admin.css',)
+        js = ('djangojames/js/statistics.js',)    
+    
     """
     Custom index dashboard.
     """ 
