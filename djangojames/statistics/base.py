@@ -196,6 +196,9 @@ class BaseSequenceStatistics(BaseStatistics):
         .values(new_name).annotate(created_count=Count('id')).order_by(new_name)
 
         for idict in queryset:
+            logger.info(idict)
+            logger.info(idict[new_name])
+            logger.info(type(idict[new_name]))
             stamp = self.datetime_to_stamp(idict[new_name])
             timeline_dict[stamp] = idict['created_count']
     
