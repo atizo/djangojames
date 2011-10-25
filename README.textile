@@ -8,8 +8,8 @@ h2. Django James provides some usfull features:
 * Some Form validation helpers
 * Thumbnail Model Field with advanced cropping methods (based on "django-thumbs":http://code.google.com/p/django-thumbs/)
 * Export instances as csv
-* Easy statistics with "Highchart.js":<http://www.highcharts.com/
-* Improved admin theme with "django-admin-tools":<https://bitbucket.org/izi/django-admin-tools/
+* Easy statistics with "Highchart.js":http://www.highcharts.com/
+* Improved admin theme with "django-admin-tools":https://bitbucket.org/izi/django-admin-tools/
  * Easy statistics admin module
 
 h2. Additional Management commands:
