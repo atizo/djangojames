@@ -25,7 +25,7 @@ from djangojames.admin_dashboard import get_statistics_modules
 # dummy redirect
 from django.views.generic.simple import redirect_to
 urlpatterns = patterns('',
-    ('^$', redirect_to, {'url': '/'}),
+    url(r'^admin_tools/', include('admin_tools.urls')),
 )
 
 for mod in get_statistics_modules():

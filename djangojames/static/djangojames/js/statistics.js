@@ -23,7 +23,7 @@ djangojames.statistics.options = {
         renderTo : 'base-chart',
         defaultSeriesType : 'column',
         height : 380,
-        width: 620
+        width: 600
     },
     title : {
         text : ''

@@ -27,16 +27,15 @@ from django.utils.importlib import import_module
 from django.utils.translation import ugettext_lazy as _
 
 class CustomIndexDashboard(Dashboard):
+    """
+    Custom index dashboard.
+    """
     
     template = 'djangojames/dashboard.html'
 
     class Media:
-        css = ()#('djangojames/css/admin.css',)
-        js = ('djangojames/js/statistics.js',)    
-    
-    """
-    Custom index dashboard.
-    """ 
+        css = ('djangojames/css/statistics.css',)
+            
     def __init__(self, **kwargs):
         Dashboard.__init__(self, **kwargs)
 
@@ -100,7 +99,11 @@ class CustomIndexDashboard(Dashboard):
         """
         Use this method if you need to access the request context.
         """
-        pass
+        context['james_chart_js_url'] = getattr(
+                settings,
+                'JAMES_CHART_JS_URL',
+                None
+        )
     
 def get_statistics_modules():
     mod_clss = getattr(

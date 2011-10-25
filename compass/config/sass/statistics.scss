@@ -1,3 +1,7 @@
+@import "compass/utilities/general/clearfix";
+@import "compass/utilities/general/float";
+@import "const";
+
 div.statistics-graph{
     height:330px
 }
@@ -57,6 +61,7 @@ div.charts-group{
 
 div.base-chart {
     height:380px;
+    min-width: 600px;
 }
 
 table.statistics-graph-choices{

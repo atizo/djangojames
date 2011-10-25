@@ -1,0 +1,29 @@
+h1. Django James
+
+"The same procedure as last year? – The same procedure as every year"
+
+h2. Django James provides some usfull features:
+
+* Nice Form rendering 
+* Some Form validation helpers
+* Thumbnail Model Field with advanced cropping methods
+* Export instances as csv
+* Easy Statistics with `Highchart.js:<http://www.highcharts.com/>`_
+* Improved Admin theme with `django-admin-tools:<https://bitbucket.org/izi/django-admin-tools/>`_
+ * Easy statistics admin module
+
+h2. Additional Management commands:
+
+* dumpdb: Dump project db
+* loaddump: Load a db dump
+* fooemails: Set fake emails
+* dumpalldata: Dump all data to json files
+* resetload: Recreate a databse and load jsons
+
+h2. Usage
+
+tbd
+
+h2. Dependencies
+
+tbd

@@ -1,18 +1,17 @@
 {% load i18n admin_tools_dashboard_tags %}
+<script type="text/javascript" src="{{ media_url }}/admin_tools/js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="{{ media_url }}/admin_tools/js/jquery/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{{ media_url }}/admin_tools/js/utils.js"></script>
-<script src="/static/djangojames/js/highcharts/highcharts.js" type="text/javascript"></script>
+
+{% if james_chart_js_url %}
+    <script src="{{ james_chart_js_url }}" type="text/javascript"></script>
+    <script src="{{ media_url }}/djangojames/js/statistics.js" type="text/javascript"></script>
+{% endif %}
+
 <script type="text/javascript" charset="utf-8">
     // Load js files syncronously and conditionally
 
     var js_files = [
-        {
-            src : '{{ media_url }}/admin_tools/js/jquery/jquery.min.js',
-            test: function() { return typeof(jQuery) == 'undefined'; }
-        },
-        {
-            src : '{{ media_url }}/admin_tools/js/jquery/jquery-ui.min.js',
-            test: function() { return typeof(jQuery.ui) == 'undefined'; }
-        },
         {
             src : '{{ media_url }}/admin_tools/js/json.min.js',
             test: function() { return typeof(JSON.stringify) == 'undefined'; }

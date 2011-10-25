@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
 # 
+# New BSD License
+#
 # Initial django-thumbs by Antonio Melé
-# http://django.es
-# 
+# http://code.google.com/p/django-thumbs/
+#
 # Authors:
 # 
 # - Antonio Melé

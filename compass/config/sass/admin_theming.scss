@@ -1,3 +1,7 @@
+@import "compass/utilities/general/clearfix";
+@import "compass/utilities/general/float";
+@import "const";
+
 div.float-cont{
   @include clearfix;
   div.left-cnt{
