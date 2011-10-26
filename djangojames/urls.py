@@ -21,17 +21,25 @@
 #
 from django.conf.urls.defaults import patterns, include, url
 from djangojames.admin_dashboard import get_statistics_modules
+from django.conf import settings
 
 # dummy redirect
-from django.views.generic.simple import redirect_to
 urlpatterns = patterns('',
-    url(r'^admin_tools/', include('admin_tools.urls')),
+    url(r'^admin_tools/', include('admin_tools.urls')),  
 )
 
-for mod in get_statistics_modules():
+statistics_modules = get_statistics_modules()
+for mod in statistics_modules:
+    
     admin_stats = mod()
     urlpatterns += patterns('',
        url(r'^statistics/%s/' % admin_stats.prefix, include(admin_stats.get_urls())),
     )
 
+use_export_chart = hasattr(settings, 'JAMES_CHART_EXPORT_JS_URL')
+
+if len(statistics_modules) > 0 and use_export_chart:  
+    urlpatterns += patterns('djangojames.views',
+        url(r'^statistics/export/$', 'export_highchart_svg', name='export-highchart'),
+    )
     

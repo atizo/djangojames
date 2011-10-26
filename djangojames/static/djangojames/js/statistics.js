@@ -20,10 +20,9 @@ djangojames.statistics.options = {
         enabled : false
     },
     chart : {
-        renderTo : 'base-chart',
+        renderTo : 'chart-container',
         defaultSeriesType : 'column',
-        height : 380,
-        width: 600
+        height : 380
     },
     title : {
         text : ''
@@ -55,7 +54,27 @@ djangojames.statistics.options = {
         }
     },
 
-    series : []
+    series : [],
+    exporting : {
+        enabled : true,
+        url : $('input#highchart-exporting-url').val(),
+    	buttons: {
+    		printButton: {
+    			 enabled : false
+    		},
+    		exportButton: {
+    			menuItems: [null,null,null, {
+    				textKey: 'downloadSVG',
+    				onclick: function () {
+    					this.exportChart({
+    						type: 'image/svg+xml'
+    					});
+    				}
+    			}]
+
+    		} 
+    	}
+    } 
 };
 
 djangojames.statistics.pushData = function(name, data, type, options) {
@@ -69,6 +88,11 @@ djangojames.statistics.pushData = function(name, data, type, options) {
 djangojames.statistics.cache = {};
 djangojames.statistics.loadChart = function(config, series, prefix) {
 	
+	var chart_container = $('#chart-container'+prefix);
+	
+	if (chart_container.width() > 0 ) {
+		djangojames.statistics.options.chart.width = chart_container.width();
+	}
     var options = $.extend(true, {}, djangojames.statistics.options, config.options);
     options.chart.renderTo = options.chart.renderTo + prefix;
     options.tooltip.formatter = djangojames.statistics.formatter[config.type.name];
@@ -84,7 +108,7 @@ djangojames.statistics.loadChart = function(config, series, prefix) {
     djangojames.statistics.chart[prefix] = new Highcharts.Chart(options);
     $('td.singleChoices.selected').removeClass('selected');
     $('input:checked').parent().addClass('selected');
-    $('#base-chart'+prefix).removeClass('loader');
+    chart_container.removeClass('loader');
 };
 
 djangojames.statistics.extract_prefix = function(target_id) {
@@ -99,7 +123,7 @@ djangojames.statistics.clickChoice = function(event) {
     djangojames.statistics.chart[prefix] && djangojames.statistics.chart[prefix].destroy();
     djangojames.statistics.chart[prefix] = null;
 
-    $('#base-chart'+prefix).addClass('loader');
+    $('#chart-container'+prefix).addClass('loader');
     var config = djangojames.statistics.config[prefix][config_id];
 
     if(djangojames.statistics.cache[config_id]) {
