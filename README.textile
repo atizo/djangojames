@@ -10,7 +10,7 @@ h2. Django James provides some usfull features:
 * Export instances as csv
 * Easy statistics with "Highchart.js":http://www.highcharts.com/
 * Improved admin theme with "django-admin-tools":https://bitbucket.org/izi/django-admin-tools/
- * Easy statistics admin module
+** Easy statistics admin module
 
 h2. Additional Management commands:
 
@@ -22,8 +22,40 @@ h2. Additional Management commands:
 
 h2. Usage
 
-tbd
+h3. Commands: 
+
+use manage.py <commands> -h
+
+h3. Admin enhancment:*
+
+In urls.py
+
+bc.. urlpatterns = patterns('',
+url(r'^james/', include('djangojames.urls')), 
+)
+
+In settings.py
+
+bc.. INSTALLED_APPS = (
+'djangojames',  
+)
 
 h2. Dependencies
 
-tbd
+* django >= 1.3.1
+
+h3. Optional
+
+Admin enhancment:
+
+* django-admin-tools >=0.4.0
+* FeedParser >=5.0.1
+
+Statistics
+
+* "Highchart.js":http://www.highcharts.com/
+
+h2. License
+
+See LICENSE.
+

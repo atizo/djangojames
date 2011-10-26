@@ -1,0 +1,27 @@
+/* colors */
+div.float-cont { overflow: hidden; *zoom: 1; }
+div.float-cont div.left-cnt { display: inline; float: left; padding-right: 10px; }
+
+div.hr-top { border-top: 1px solid #eaeaea; }
+
+div.loader { background: url(/static/djangojames/img/loader.gif) no-repeat 5px 4px; height: 30px; width: 100%; }
+
+div.spacer-10 { height: 10px; width: 100%; clear: both; }
+
+div.spacer-20 { height: 20px; width: 100%; clear: both; }
+
+div.box { overflow: hidden; *zoom: 1; }
+div.box.grey { background-color: #f5f5f5; }
+div.box.padding { padding: 20px; }
+div.box.padding.small { padding: 10px; }
+
+#header { background: none repeat scroll 0 0 #D8D8D8; }
+#header #branding h1 { margin: 0; padding: 0; height: 0px; width: 0px; font-size: 15px; color: #94CC3D; font-weight: bold; visibility: hidden; }
+
+div.breadcrumbs { display: block; padding: 10px 15px; border: 0; background-position: 0 -8px; border-bottom: 1px solid #ededed; }
+div.breadcrumbs a { display: inline; }
+
+div#user-tools { color: grey; margin-right: 50px; }
+div#user-tools a { color: grey; }
+
+#header a:link, #header a:visited { color: grey; }
