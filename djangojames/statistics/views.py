@@ -46,6 +46,8 @@ def export_highchart_svg(request):
         return HttpResponseBadRequest()
         # exprts ugly pdfs
         
+        #http://alexandersimoes.com/journal/2011/07/12/convert-svg-to-pdf-and-prompt-for-download/
+        
         # Need to parse SVG as utf-8 XML
         #doc = xml.dom.minidom.parseString(svg_data)
         #svg = doc.documentElement

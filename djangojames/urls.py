@@ -39,7 +39,7 @@ for mod in statistics_modules:
 use_export_chart = hasattr(settings, 'JAMES_CHART_EXPORT_JS_URL')
 
 if len(statistics_modules) > 0 and use_export_chart:  
-    urlpatterns += patterns('djangojames.views',
+    urlpatterns += patterns('djangojames.statistics.views',
         url(r'^statistics/export/$', 'export_highchart_svg', name='export-highchart'),
     )
     

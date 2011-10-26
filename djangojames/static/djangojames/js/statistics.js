@@ -59,9 +59,6 @@ djangojames.statistics.options = {
         enabled : true,
         url : $('input#highchart-exporting-url').val(),
     	buttons: {
-    		printButton: {
-    			 enabled : false
-    		},
     		exportButton: {
     			menuItems: [null,null,null, {
     				textKey: 'downloadSVG',
