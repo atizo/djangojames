@@ -40,6 +40,10 @@ bc.. INSTALLED_APPS = (
 'djangojames',  
 )
 
+FIXTURE_DIRS = (
+    os.path.join(PROJECT_ROOT, 'external_fixtures/'),
+)
+
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Optional
