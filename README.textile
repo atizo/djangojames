@@ -26,7 +26,7 @@ h3. Commands:
 
 use manage.py <commands> -h
 
-h3. Admin enhancment:*
+h3. Admin enhancment:
 
 In urls.py
 
