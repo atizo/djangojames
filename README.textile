@@ -28,7 +28,7 @@ use manage.py <commands> -h
 
 h3. Admin enhancment:*
 
-h4. In urls.py
+In urls.py
 
 bc.. urlpatterns = patterns('',
 url(r'^james/', include('djangojames.urls')), 
