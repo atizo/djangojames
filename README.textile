@@ -36,6 +36,8 @@ url(r'^james/', include('djangojames.urls')),
 
 p. In settings.py
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 bc.. INSTALLED_APPS = (
 'djangojames',  
 )
