@@ -51,30 +51,31 @@ class CustomIndexDashboard(Dashboard):
             limit=5,
         ))
 
+        try:
+            main_page = reverse('index')
+        except:
+            main_page = '/'
+
+        cildren = [{'title': _(u'Hauptseite'),
+                    'url': reverse('index')},
+                    {'title': _(u'Passwort wechseln'),
+                     'url': reverse('admin:password_change')},
+                ]
+        
+        if 'rosetta' in settings.INSTALLED_APPS:
+             cildren.append({'title': _(u'Übersetzen'),
+                             'url': reverse('rosetta-home')})
+             
+        cildren.append({'title': _(u'Django Dokumentation'),
+                    'url': 'https://docs.djangoproject.com/'})
+
         # append a link list module for "quick links"
         self.children.append(modules.LinkList(
             title='Quick links',
             draggable=True,
             deletable=True,
             collapsible=True,
-            children=[
-                {
-                    'title': _(u'Hauptseite'),
-                    'url': reverse('index'),
-                },
-                {
-                    'title': _(u'Passwort wechseln'),
-                    'url': reverse('admin:password_change'),
-                },
-                {
-                    'title': _(u'Übersetzen'),
-                    'url': reverse('rosetta-home')
-                },
-                {
-                    'title': _(u'Django Dokumentation'),
-                    'url': 'https://docs.djangoproject.com/'
-                },
-            ]
+            children=cildren
         ))
         
         stats_modules = get_statistics_modules()
