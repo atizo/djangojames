@@ -28,18 +28,21 @@ use manage.py <commands> -h
 
 h3. Admin enhancment:*
 
-In urls.py
+h4. In urls.py
 
 bc.. urlpatterns = patterns('',
 url(r'^james/', include('djangojames.urls')), 
 )
 
 
-In settings.py
+h4. In settings.py
 
 bc.. INSTALLED_APPS = (
 'djangojames',  
 )
+# Optional
+ADMIN_TOOLS_THEMING_CSS = 'djangojames/css/admin_theming.css'
+ADMIN_TOOLS_INDEX_DASHBOARD = 'djangojames.admin_dashboard.CustomIndexDashboard'
 
 h2. Dependencies
 
