@@ -57,7 +57,7 @@ class CustomIndexDashboard(Dashboard):
             main_page = '/'
 
         cildren = [{'title': _(u'Hauptseite'),
-                    'url': reverse('index')},
+                    'url': main_page},
                     {'title': _(u'Passwort wechseln'),
                      'url': reverse('admin:password_change')},
                 ]
