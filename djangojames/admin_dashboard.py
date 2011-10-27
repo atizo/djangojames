@@ -35,6 +35,7 @@ class CustomIndexDashboard(Dashboard):
 
     class Media:
         css = ('djangojames/css/statistics.css',)
+        js = ('djangojames/js/statistics.js',)
             
     def __init__(self, **kwargs):
         Dashboard.__init__(self, **kwargs)
@@ -102,6 +103,12 @@ class CustomIndexDashboard(Dashboard):
         context['james_chart_js_url'] = getattr(
                 settings,
                 'JAMES_CHART_JS_URL',
+                None
+        )
+        
+        context['james_chart_export_js_url'] = getattr(
+                settings,
+                'JAMES_CHART_EXPORT_JS_URL',
                 None
         )
     

@@ -1,8 +1,8 @@
-h1. Django James
+h1. DjangoJames
 
 "The same procedure as last year? – The same procedure as every year"
 
-h2. Django James provides some usfull features:
+h2. Some usfull features:
 
 * Nice Form rendering 
 * Some Form validation helpers
@@ -26,7 +26,7 @@ h3. Commands:
 
 use manage.py <commands> -h
 
-h3. Admin enhancment:*
+h3. Admin enhancment:
 
 In urls.py
 
@@ -34,11 +34,17 @@ bc.. urlpatterns = patterns('',
 url(r'^james/', include('djangojames.urls')), 
 )
 
-In settings.py
+p. In settings.py
 
 bc.. INSTALLED_APPS = (
 'djangojames',  
 )
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+# Optional
+ADMIN_TOOLS_THEMING_CSS = 'djangojames/css/admin_theming.css'
+ADMIN_TOOLS_INDEX_DASHBOARD = 'djangojames.admin_dashboard.CustomIndexDashboard'
 
 h2. Dependencies
 
