@@ -90,7 +90,7 @@ class NiceForm(MetaBaseForm):
         for index, field in enumerate(self):
             form['fields'].append({'raw': field, 'class': field.field.widget.__class__.__name__.lower()})
 
-        return mark_safe(render_to_string('form.html', dict(context, **{'form':form})))
+        return mark_safe(render_to_string('djangojames/form.html', dict(context, **{'form':form})))
 
     def __unicode__(self):        
         return self.as_nice()
