@@ -34,6 +34,7 @@ bc.. urlpatterns = patterns('',
 url(r'^james/', include('djangojames.urls')), 
 )
 
+
 In settings.py
 
 bc.. INSTALLED_APPS = (
