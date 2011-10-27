@@ -1,4 +1,4 @@
-h1. Django James
+h1. DjangoJames
 
 "The same procedure as last year? – The same procedure as every year"
 
