@@ -2,7 +2,7 @@ h1. DjangoJames
 
 "The same procedure as last year? – The same procedure as every year"
 
-h2. Django James provides some usfull features:
+h2. Some usfull features:
 
 * Nice Form rendering 
 * Some Form validation helpers
