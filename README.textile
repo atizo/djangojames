@@ -35,7 +35,7 @@ url(r'^james/', include('djangojames.urls')),
 )
 
 
-h4. In settings.py
+p. h4. In settings.py
 
 bc.. INSTALLED_APPS = (
 'djangojames',  
