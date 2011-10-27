@@ -36,11 +36,12 @@ url(r'^james/', include('djangojames.urls')),
 
 p. In settings.py
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
 bc.. INSTALLED_APPS = (
 'djangojames',  
 )
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 # Optional
 ADMIN_TOOLS_THEMING_CSS = 'djangojames/css/admin_theming.css'
 ADMIN_TOOLS_INDEX_DASHBOARD = 'djangojames.admin_dashboard.CustomIndexDashboard'
