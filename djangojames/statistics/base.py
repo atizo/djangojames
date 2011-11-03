@@ -308,3 +308,32 @@ class BaseGoogleAnalyticsStatistics(BaseFractionStatistics):
     
     def _get_browser(self, from_date, to_date):
         return self.get_data(start_date=from_date, end_date=to_date, dimensions=['browser'], metrics=['visitors',], sort=['-visitors',], filters=self.filters, calc_percent=True)
+
+
+class VisitorsStatistics(BaseSequenceStatistics, 
+                          BaseGoogleAnalyticsStatistics):
+    
+    name = _(u'Besucher')
+    
+    @apply_days_range(days=120)
+    def stats_visitor(self, request, from_date, to_date):
+        return self._get_visitor(from_date, to_date)
+    stats_visitor.name = _(u'Eindeutige')
+    stats_visitor.index = 20
+    stats_visitor.options = {'xAxis': { 'type': 'datetime'}}
+    stats_visitor.type = {'name': 'line', 'unity': 'datetime'}  
+    stats_visitor.selected = True
+    
+    @apply_days_range(days=500)
+    def stats_country(self, request, from_date, to_date):
+        return self._get_country(from_date, to_date)
+    stats_country.name = _(u'Herkunftsland')
+    stats_country.index = 30
+    stats_country.type = {'name': 'pie', 'unity': 'percent'}
+    
+    @apply_days_range(days=500)
+    def stats_browser(self, request, from_date, to_date):
+        return self._get_browser(from_date, to_date)
+    stats_browser.name = _(u'Browser')
+    stats_browser.index = 40
+    stats_browser.type = {'name': 'pie', 'unity': 'percent'}    
