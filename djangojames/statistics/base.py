@@ -327,7 +327,7 @@ class VisitorsStatistics(BaseSequenceStatistics,
     stats_visitor.index = 20
     stats_visitor.options = {'xAxis': { 'type': 'datetime'}}
     stats_visitor.type = {'name': 'line', 'unity': 'datetime'}  
-    #stats_visitor.selected = True
+    stats_visitor.selected = True
     
     @apply_days_range(days=500)
     def stats_country(self, request, from_date, to_date):
