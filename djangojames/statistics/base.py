@@ -309,6 +309,11 @@ class BaseGoogleAnalyticsStatistics(BaseFractionStatistics):
     def _get_browser(self, from_date, to_date):
         return self.get_data(start_date=from_date, end_date=to_date, dimensions=['browser'], metrics=['visitors',], sort=['-visitors',], filters=self.filters, calc_percent=True)
 
+    def _get_operatingsystem(self, from_date, to_date):
+        return self.get_data(start_date=from_date, end_date=to_date, dimensions=['operatingsystem'], metrics=['visitors',], sort=['-visitors',], filters=self.filters, calc_percent=True)
+
+    def _get_visitortype(self, from_date, to_date):
+        return self.get_data(start_date=from_date, end_date=to_date, dimensions=['visitortype'], metrics=['visitors',], sort=['-visitors',], filters=self.filters, calc_percent=True)
 
 class VisitorsStatistics(BaseSequenceStatistics, 
                           BaseGoogleAnalyticsStatistics):
@@ -318,11 +323,11 @@ class VisitorsStatistics(BaseSequenceStatistics,
     @apply_days_range(days=120)
     def stats_visitor(self, request, from_date, to_date):
         return self._get_visitor(from_date, to_date)
-    stats_visitor.name = _(u'Eindeutige')
+    stats_visitor.name = _(u'Eindeutige Besucher')
     stats_visitor.index = 20
     stats_visitor.options = {'xAxis': { 'type': 'datetime'}}
     stats_visitor.type = {'name': 'line', 'unity': 'datetime'}  
-    stats_visitor.selected = True
+    #stats_visitor.selected = True
     
     @apply_days_range(days=500)
     def stats_country(self, request, from_date, to_date):
@@ -336,4 +341,18 @@ class VisitorsStatistics(BaseSequenceStatistics,
         return self._get_browser(from_date, to_date)
     stats_browser.name = _(u'Browser')
     stats_browser.index = 40
-    stats_browser.type = {'name': 'pie', 'unity': 'percent'}    
+    stats_browser.type = {'name': 'pie', 'unity': 'percent'}
+
+    @apply_days_range(days=500)
+    def stats_os(self, request, from_date, to_date):
+        return self._get_operatingsystem(from_date, to_date)
+    stats_os.name = _(u'Betriebssystem')
+    stats_os.index = 50
+    stats_os.type = {'name': 'pie', 'unity': 'percent'}
+    
+    @apply_days_range(days=500)
+    def stats_visitortype(self, request, from_date, to_date):
+        return self._get_visitortype(from_date, to_date)
+    stats_visitortype.name = _(u'Neu und wiederkehrend')
+    stats_visitortype.index = 50
+    stats_visitortype.type = {'name': 'pie', 'unity': 'percent'}
