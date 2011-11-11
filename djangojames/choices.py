@@ -34,8 +34,11 @@ def sort_choice(choice, head_tuple=None):
     if head_tuple:
         l = []
         l.extend(c)
-        for k in head_tuple:
-            l.insert(1,k)
+        head = list(head_tuple)
+        head.reverse()
+        
+        for k in head:
+            l.insert(0,k)
         return l
     return c
 
@@ -46,14 +49,14 @@ def get_display(choice, key):
     return ''
     
 COUNTRY_CHOICES_HEAD = (
-    ('at', _(u'Österreich')),
-    ('de', _(u'Deutschland')),
-    ('ch', _(u'Schweiz')),
-    ('fr', _(u'Frankreich')),
+    ('ch1', _(u'Schweiz')),
+    ('de1', _(u'Deutschland')),
+    ('at1', _(u'Österreich')),
+    ('fr1', _(u'Frankreich')),
+    ('', '---------'),
 )
 
 COUNTRY_CHOICES = (
-    ('', SELECTION_NAME),
     ('ad', _(u'Andorra')),
     ('ae', _(u'Vereinigte Arabische Emirate')),
     ('af', _(u'Afghanistan')),
