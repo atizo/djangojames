@@ -6,9 +6,9 @@
 	{% else %}
 		<div class="row {%if forloop.first %}first{% endif %}">
 			{%ifequal field.class "checkboxinput" %}
-				<div class="checkbox">{{ field.raw }}<div class="label-text"><div class="title">{{ field.raw.label_tag }}</div> {% if field.raw.help_text %}<div class="help-text">{{ field.raw.help_text|safe}}</div>{% endif %}</div></div>
+				<div class="checkbox">{{ field.raw }}<div class="label-text"><div class="title{%if field.raw.field.required %} required{% endif %}">{{ field.raw.label_tag }}</div> {% if field.raw.help_text %}<div class="help-text">{{ field.raw.help_text|safe}}</div>{% endif %}</div></div>
 			{% else %}
-				<div class="top-label">{{ field.raw.label_tag }}</div>
+				<div class="top-label{%if field.raw.field.required %} required{% endif %}">{{ field.raw.label_tag }}</div>
 				{{ field.raw }}
 				{% if field.raw.help_text %}<div class="help-text">{{ field.raw.help_text|safe}}</div>{% endif %}
 			{%endifequal%}
