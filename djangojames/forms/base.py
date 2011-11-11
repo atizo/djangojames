@@ -44,15 +44,20 @@ class MetaBaseForm(object):
 
         return False
 
-    def check_unique(self, modelklass, field, exclude_value='', error=_(u'Existiert bereits.')):
+    def check_unique(self, modelklass, field, exclude_value='', error=_(u'Existiert bereits.'), ignore_case=False):
         
         if field in self.cleaned_data and self.cleaned_data[field]:
 
-            kwargs={field: self.cleaned_data[field]}
+            if ignore_case:
+                qfield = '%s__iexact' % field
+            else:
+                qfield = field
+                
+            kwargs={qfield: self.cleaned_data[field]}
             q = modelklass.objects.filter(**kwargs)
             
             if exclude_value:
-                exkwargs={field: exclude_value}
+                exkwargs={qfield: exclude_value}
                 q = q.exclude(**exkwargs)
 
             if q.exists(): 
