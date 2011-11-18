@@ -101,6 +101,9 @@ class MetaBaseForm(object):
                 del self.data[field.name]
                                            
 class NiceForm(MetaBaseForm):
+    
+    render_template = 'djangojames/form.html'
+    
     def as_nice(self):
         return self._render()
 
@@ -111,7 +114,7 @@ class NiceForm(MetaBaseForm):
         for index, field in enumerate(self):
             form['fields'].append({'raw': field, 'class': field.field.widget.__class__.__name__.lower()})
 
-        return mark_safe(render_to_string('djangojames/form.html', dict(context, **{'form':form})))
+        return mark_safe(render_to_string(self.render_template, dict(context, **{'form':form})))
 
     def __unicode__(self):        
         return self.as_nice()
