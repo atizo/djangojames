@@ -84,6 +84,22 @@ class MetaBaseForm(object):
                     self._errors[f] = ValidationError(error).messages
                     del self.cleaned_data[f]
 
+    def asterix_required(self):
+        for index, field in enumerate(self):
+            if field.field.required and field.field.label[-1] != '*':
+                field.field.label = u'%s *' % field.field.label
+                
+                if field.field.widget.attrs.has_key('label'):
+                    field.field.widget.attrs['label'] = field.field.label
+
+    def remove_label_form_data(self):
+        
+        self.data = self.data.copy()
+        
+        for index, field in enumerate(self):
+            if self.data.get(field.name, '') == u'%s' % field.label:
+                del self.data[field.name]
+                                           
 class NiceForm(MetaBaseForm):
     def as_nice(self):
         return self._render()

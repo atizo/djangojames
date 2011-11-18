@@ -32,15 +32,18 @@ class InputLabelWidget(Select):
         
         final_attrs = self.build_attrs(attrs, name=name)
         label = final_attrs.get('label','')
+        if label:
+            del final_attrs['label']
         
         output = [u'<select%s>' % flatatt(final_attrs)]
-        if label:
+        if label:            
             output.append(self.render_option([], '', '- %s -' % label))
         
         options = self.render_options(choices, [value])
         if options:
             output.append(options)
         output.append(u'</select>')
+
         return mark_safe(u'\n'.join(output))
 
 class LabelCharField(forms.CharField):
