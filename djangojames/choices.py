@@ -53,7 +53,6 @@ COUNTRY_CHOICES_HEAD = (
     ('de1', _(u'Deutschland')),
     ('at1', _(u'Österreich')),
     ('fr1', _(u'Frankreich')),
-    ('', '---------'),
 )
 
 COUNTRY_CHOICES = (

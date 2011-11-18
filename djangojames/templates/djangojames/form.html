@@ -8,10 +8,12 @@
 			{%ifequal field.class "checkboxinput" %}
 				<div class="checkbox">{{ field.raw }}<div class="label-text"><div class="title{%if field.raw.field.required %} required{% endif %}">{{ field.raw.label_tag }}</div> {% if field.raw.help_text %}<div class="help-text">{{ field.raw.help_text|safe}}</div>{% endif %}</div></div>
 			{% else %}
-				<div class="top-label{%if field.raw.field.required %} required{% endif %}">{{ field.raw.label_tag }}</div>
+			    {% ifnotequal field.class "inputlabelwidget" %}
+				    <div class="top-label{%if field.raw.field.required %} required{% endif %}">{{ field.raw.label_tag }}</div>
+				{% endifnotequal %}
 				{{ field.raw }}
 				{% if field.raw.help_text %}<div class="help-text">{{ field.raw.help_text|safe}}</div>{% endif %}
-			{%endifequal%}
+			{% endifequal %}
 
 			{% if field.raw.errors or render_hidden_error_containers %}
 				<div class="{{ field.raw.auto_id }} error {% if render_hidden_error_containers %}hidden{% endif %}">
