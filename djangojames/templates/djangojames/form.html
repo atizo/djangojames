@@ -1,30 +1,32 @@
 <fieldset>
 {% csrf_token %}
 {% for field in form.fields %}
-	{% if field.raw.is_hidden %}
-		{{ field.raw }}
-	{% else %}
-		<div class="row {%if forloop.first %}first{% endif %}">
-			{%ifequal field.class "checkboxinput" %}
-				<div class="checkbox">{{ field.raw }}<div class="label-text"><div class="title{%if field.raw.field.required %} required{% endif %}">{{ field.raw.label_tag }}</div> {% if field.raw.help_text %}<div class="help-text">{{ field.raw.help_text|safe}}</div>{% endif %}</div></div>
-			{% else %}
-			    {% ifnotequal field.class "inputlabelwidget" %}
-				    <div class="top-label{%if field.raw.field.required %} required{% endif %}">{{ field.raw.label_tag }}</div>
-				{% endifnotequal %}
-				{{ field.raw }}
-				{% if field.raw.help_text %}<div class="help-text">{{ field.raw.help_text|safe}}</div>{% endif %}
-			{% endifequal %}
-
-			{% if field.raw.errors or render_hidden_error_containers %}
-				<div class="{{ field.raw.auto_id }} error {% if render_hidden_error_containers %}hidden{% endif %}">
-				{% if field.raw.errors %}
-					{% for error in field.raw.errors %}
-						{{error}}
-					{% endfor %}
-				{% endif %}
-				</div>
-			{% endif %}
-		</div>
-	{% endif %}
+    {%if field.raw.starts_group %}
+        <div class="group-cont">
+    {% endif %}
+    <div class="row {%if forloop.first %}first{% endif %}" id="{{field.raw.auto_id}}_container">
+        {%ifequal field.class "checkboxinput" %}
+            <div class="checkbox">{{ field.raw }}<div class="label-text"><div class="title{%if field.raw.field.required %} required{% endif %}">{{ field.raw.label_tag }}</div> {% if field.raw.help_text %}<div class="help-text">{{ field.raw.help_text|safe}}</div>{% endif %}</div></div>
+        {% else %}
+            {% ifnotequal field.class "inputlabelwidget" %}
+                <div class="top-label{%if field.raw.field.required %} required{% endif %}">{{ field.raw.label_tag }}</div>
+            {% endifnotequal %}
+            {{ field.raw }}
+            {% if field.raw.help_text %}<div class="help-text">{{ field.raw.help_text|safe}}</div>{% endif %}
+        {% endifequal %}
+    
+        {% if field.raw.errors  %}
+            <div class="{{ field.raw.auto_id }} error">
+            {% if field.raw.errors %}
+                {% for error in field.raw.errors %}
+                    {{error}}
+                {% endfor %}
+            {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    {%if field.raw.ends_group %}
+        </div>
+    {% endif %}
 {% endfor %}
 </fieldset>

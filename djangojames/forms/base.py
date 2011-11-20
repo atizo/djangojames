@@ -99,7 +99,11 @@ class MetaBaseForm(object):
         for index, field in enumerate(self):
             if self.data.get(field.name, '') == u'%s' % field.label:
                 del self.data[field.name]
-                                           
+
+    def disable_form(self):
+        for field in self.fields.values():
+            field.widget.attrs['disabled'] = "disabled"
+                
 class NiceForm(MetaBaseForm):
     
     render_template = 'djangojames/form.html'
@@ -112,6 +116,10 @@ class NiceForm(MetaBaseForm):
         form = {'raw': self, 'fields': []}
         
         for index, field in enumerate(self):
+            
+            field.starts_group = self._starts_group(field.name)
+            field.ends_group = self._ends_group(field.name)
+            
             form['fields'].append({'raw': field, 'class': field.field.widget.__class__.__name__.lower()})
 
         return mark_safe(render_to_string(self.render_template, dict(context, **{'form':form})))
@@ -119,12 +127,22 @@ class NiceForm(MetaBaseForm):
     def __unicode__(self):        
         return self.as_nice()
 
+    def _starts_group(self, fieldname):
+        if hasattr(self.Meta, 'groups'):
+            self.__group_start = [group[0] for group in self.Meta.groups if len(group) > 0]
+            return fieldname in self.__group_start
+            
+        return False
+
+    def _ends_group(self, fieldname):
+        if hasattr(self.Meta, 'groups'):
+            self.__group_end = [group[-1] for group in self.Meta.groups if len(group) > 0]
+            return fieldname in self.__group_end
+        return False
+
+
 class BaseModelForm(NiceForm, forms.ModelForm):
     pass
 
 class BaseForm(NiceForm, forms.Form):
     pass
-
-def disable_form(form):
-    for field in form.fields.values():
-        field.widget.attrs['disabled'] = "disabled"
