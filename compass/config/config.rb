@@ -5,7 +5,7 @@ css_dir = "../../djangojames/static/djangojames/css"
 sass_dir = "sass"
 images_dir = "../../djangojames/static/djangojames/img"
 javascripts_dir = "../../djangojames/static/djangojames/js"
+output_style = :compact
 line_comments = false
-output_style = :compressed
 # To enable relative paths to assets via compass helper functions. Uncomment:
 # relative_assets = true
