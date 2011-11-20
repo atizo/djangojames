@@ -129,17 +129,17 @@ class NiceForm(MetaBaseForm):
 
     def _starts_group(self, fieldname):
         if hasattr(self.Meta, 'groups'):
-            self.__group_start = [group[0] for group in self.Meta.groups if len(group) > 0]
+            if not hasattr(self, '__group_start'):
+                self.__group_start = [group[0] for group in self.Meta.groups if len(group) > 0]
             return fieldname in self.__group_start
-            
         return False
 
     def _ends_group(self, fieldname):
         if hasattr(self.Meta, 'groups'):
-            self.__group_end = [group[-1] for group in self.Meta.groups if len(group) > 0]
+            if not hasattr(self, '__group_end'):
+                self.__group_end = [group[-1] for group in self.Meta.groups if len(group) > 0]
             return fieldname in self.__group_end
         return False
-
 
 class BaseModelForm(NiceForm, forms.ModelForm):
     pass
