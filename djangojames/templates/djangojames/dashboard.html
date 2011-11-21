@@ -43,11 +43,12 @@
                 '{{ dashboard.get_id }}',
                 {{ dashboard.columns }},
                 {% autoescape off %}{{ dashboard_preferences }}{% endautoescape %},
-                '{% url admin-tools-dashboard-set-preferences %}'
+                '{% url admin-tools-dashboard-set-preferences dashboard.get_id %}'
             );
         });
     });
 </script>
+
 {% if dashboard.title %}
 <h1 class="dashboard-title">{{ dashboard.title }}</h1>
 {% endif %}
@@ -59,7 +60,7 @@
         {% spaceless %}
         {% for module in dashboard.children %}
         {% if not module.enabled %}
-        <li><a href="#" rel="module_{{ forloop.counter }}" class="addlink add-dashboard-module">{{ module.title }}</a></li>
+        <li><a href="#" rel="module_{{ module.id }}" class="addlink add-dashboard-module">{{ module.title }}</a></li>
         {% endif %}
         {% endfor %}
         {% endspaceless %}
@@ -68,5 +69,5 @@
 </div>
 <div id="{{ dashboard.get_id }}" class="dashboard-container">
     {% for module in dashboard.children %}
-{% admin_tools_render_dashboard_module module forloop.counter %}{% endfor %}
+{% admin_tools_render_dashboard_module module %}{% endfor %}
 </div>
