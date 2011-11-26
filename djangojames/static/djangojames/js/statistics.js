@@ -148,7 +148,7 @@ $(document).ready(function(){
 	$.each($('.stats-prefix'), function(index, value) { 
 		var prefix = '_' + $(value).val();
 
-	    djangojames.statistics.config[prefix] = JSON.parse($('#base-stats-config'+prefix).val());
+	    djangojames.statistics.config[prefix] = $.parseJSON($('#base-stats-config'+prefix).val());
 	    var choice_per_col = parseInt($("#base-choice_per_col"+prefix).val(), 10);
 	
 	    var choiceContainer = $("#base-graph-choices"+prefix);
