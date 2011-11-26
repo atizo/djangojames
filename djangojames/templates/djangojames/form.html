@@ -2,7 +2,7 @@
 {% csrf_token %}
 {% for field in form.fields %}
     {%if field.raw.starts_group %}
-        <div class="group-cont" id="{{field.raw.auto_id}}_group" >
+        <div class="group-cont {{ form.raw.group_class }}" id="{{field.raw.auto_id}}_group">
     {% endif %}
     <div class="row {%if forloop.first %}first{% endif %}" id="{{field.raw.auto_id}}_container">
         {%ifequal field.class "checkboxinput" %}
