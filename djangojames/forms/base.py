@@ -72,7 +72,7 @@ class MetaBaseForm(object):
 
     def invalidate(self, fieldlist, error=_(u'Dieses Feld ist zwingend erforderlich.')):
         for f in fieldlist:
-            if self.cleaned_data.get(f,None):
+            if f in self.cleaned_data:
                 self._errors[f] = ValidationError(error).messages
                 del self.cleaned_data[f]
 
