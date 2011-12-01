@@ -70,6 +70,12 @@ class MetaBaseForm(object):
                 self._errors[f] = ValidationError(error).messages
                 del self.cleaned_data[f]
 
+    def invalidate(self, fieldlist, error=_(u'Dieses Feld ist zwingend erforderlich.')):
+        for f in fieldlist:
+            if f in self.cleaned_data:
+                self._errors[f] = ValidationError(error).messages
+                del self.cleaned_data[f]
+
     def required_all_or_none(self, fieldlist, error=_(u'Dieses Feld ist zwingend erforderlich.')):
         not_found=[f for f in fieldlist if f in self.cleaned_data and not self.cleaned_data[f]]
         if len(not_found) > 0 and len(not_found) <> len(fieldlist):                                
@@ -127,15 +133,18 @@ class NiceForm(MetaBaseForm):
     def __unicode__(self):        
         return self.as_nice()
 
+    def _has_groups(self):
+        return hasattr(self, 'Meta') and hasattr(self.Meta, 'groups')
+
     def _starts_group(self, fieldname):
-        if hasattr(self.Meta, 'groups'):
+        if self._has_groups():
             if not hasattr(self, '__group_start'):
                 self.__group_start = [group[0] for group in self.Meta.groups if len(group) > 0]
             return fieldname in self.__group_start
         return False
 
     def _ends_group(self, fieldname):
-        if hasattr(self.Meta, 'groups'):
+        if self._has_groups():
             if not hasattr(self, '__group_end'):
                 self.__group_end = [group[-1] for group in self.Meta.groups if len(group) > 0]
             return fieldname in self.__group_end
