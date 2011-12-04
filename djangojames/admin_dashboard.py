@@ -63,7 +63,7 @@ class CustomIndexDashboard(Dashboard):
                 ]
         
         if 'rosetta' in settings.INSTALLED_APPS:
-             cildren.append({'title': _(u'Übersetzen'),
+            cildren.append({'title': _(u'Übersetzen'),
                              'url': reverse('rosetta-home')})
              
         cildren.append({'title': _(u'Django Dokumentation'),

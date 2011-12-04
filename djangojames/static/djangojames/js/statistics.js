@@ -166,7 +166,6 @@ $(document).ready(function(){
 	        }
 	        html += ('<tr><td class=""><input type="radio" name="' + prefix + '" ' + checked + 'id="id_base_' + key + '"></td>' + '<td class="label"><label>' + val.label + '</label></td></tr>');
 	        i += 1;
-	
 	    });
 	    html += '</tbody></table></div></div>';
 	    choiceContainer.append(html);
