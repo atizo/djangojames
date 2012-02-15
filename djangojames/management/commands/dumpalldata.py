@@ -46,8 +46,17 @@ class Command(BaseCommand):
 
     help = 'Output the contents of the models as fixtures'
 
-    def _dump_files(self, path, file, objects):
+    def _dump_files(self, path, file, model):
         json_file = os.path.join(path, file)
+        
+        objects = set()
+        
+        # needed to support polymorphic models
+        if hasattr(model, 'base_objects'):
+            objects.update(model.base_objects.all())
+        else:
+            objects.update(model.objects.all())
+        
         # empty files are impossible to load
         if len(objects) > 0:
             try:
@@ -76,7 +85,7 @@ class Command(BaseCommand):
                 if not model.__name__ in EXCLUDE_MODEL:
                     path = os.path.join(app_base_path, DUMP_FIXTRUES_DIR).replace('/models', '')
                     file = "%s.%s" % (model.__name__.lower(), DUMP_FORMAT)    
-                    self._dump_files(path, file, model.objects.all())
+                    self._dump_files(path, file, model)
                 
     def _dump_extrenal_apps(self, app_list): 
         from django.db.models import get_models
@@ -84,12 +93,10 @@ class Command(BaseCommand):
             if app[1] is not None:
                 model_list = get_models(app[1])
                 for model in model_list:
-                    objects = set()
                     if not model.__name__ in EXCLUDE_MODEL:
-                        objects.update(model.objects.all())
                         path = os.path.join(EXTERNAL_FIXTURES_DIR).replace('/models', '')
                         file = "%s_%s.%s" % (app[0].replace('.', '_'), model.__name__.lower(), DUMP_FORMAT)
-                        self._dump_files(path, file, objects)
+                        self._dump_files(path, file, model)
 
     def handle(self, *app_labels, **options):
         app_label = lambda app: app[app.rfind('.')+1:]
