@@ -4,26 +4,38 @@
     {%if field.raw.starts_group %}
         <div class="group-cont {{ form.raw.group_class }}" id="{{field.raw.auto_id}}_group">
     {% endif %}
-    <div class="row {%if forloop.first %}first{% endif %}" id="{{field.raw.auto_id}}_container">
-        {%ifequal field.class "checkboxinput" %}
-            <div class="checkbox">{{ field.raw }}<div class="label-text"><div class="title{%if field.raw.field.required %} required{% endif %}">{{ field.raw.label_tag }}</div> {% if field.raw.help_text %}<div class="help-text">{{ field.raw.help_text|safe}}</div>{% endif %}</div></div>
-        {% else %}
-            {% ifnotequal field.class "inputlabelwidget" %}
-                <div class="top-label{%if field.raw.field.required %} required{% endif %}">{{ field.raw.label_tag }}</div>
-            {% endifnotequal %}
-            {{ field.raw }}
-            {% if field.raw.help_text %}<div class="help-text">{{ field.raw.help_text|safe}}</div>{% endif %}
-        {% endifequal %}
-    
-        {% if field.raw.errors  %}
-            <div class="{{ field.raw.auto_id }} error">
-            {% if field.raw.errors %}
-                {% for error in field.raw.errors %}
-                    {{error}}
-                {% endfor %}
-            {% endif %}
-            </div>
-        {% endif %}
+    <div class="control-group {%if forloop.first %}first{% endif %}{% if field.raw.errors  %} error{% endif %}" id="{{field.raw.auto_id}}_container">
+        
+        
+        {% ifnotequal field.class "inputlabelwidget" %}
+        	<label class="control-label {%if field.raw.field.required %} required{% endif %}" for="id_{{ field.raw.html_name }}">{{ field.raw.label }}</label>
+        {% endifnotequal %}
+        
+        <div class="controls">
+	        {%ifequal field.class "checkboxinput" %}
+		       	<label class="checkbox">
+		       		{{ field.raw }}
+		       		{{ field.raw.help_text|safe}}
+		       	</label>        	
+	        {% else %}            
+		        {{ field.raw }}	            	            
+		    {% endifequal %}
+		    
+	        {% if field.raw.errors  %}
+	            <div class="{{ field.raw.auto_id }} help-inline">
+	            {% if field.raw.errors %}
+	                {% for error in field.raw.errors %}
+	                    {{error}}
+	                {% endfor %}
+	            {% endif %}
+	            </div>
+	        {% endif %}
+
+	        {% if field.raw.help_text and field.class != "checkboxinput" %}
+	        	<p class="help-block">{{ field.raw.help_text|safe}}</p>
+	        {% endif %}
+	        
+    	</div>
     </div>
     {%if field.raw.ends_group %}
         </div>
