@@ -121,7 +121,6 @@ class NiceForm(MetaBaseForm):
         form = {'raw': self, 'fields': []}
         
         for index, field in enumerate(self):
-            
             field.starts_group = self._starts_group(field.name)
             field.ends_group = self._ends_group(field.name)
             form['fields'].append({'raw': field, 'class': field.field.widget.__class__.__name__.lower()})

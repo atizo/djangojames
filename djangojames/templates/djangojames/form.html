@@ -1,44 +1,47 @@
 <fieldset>
 {% csrf_token %}
 {% for field in form.fields %}
-    {%if field.raw.starts_group %}
-        <div class="group-cont {{ form.raw.group_class }}" id="{{field.raw.auto_id}}_group">
-    {% endif %}
-    <div class="control-group {%if forloop.first %}first{% endif %}{% if field.raw.errors  %} error{% endif %}" id="{{field.raw.auto_id}}_container">
-        
-        
-        {% ifnotequal field.class "inputlabelwidget" %}
-        	<label class="control-label {%if field.raw.field.required %} required{% endif %}" for="id_{{ field.raw.html_name }}">{{ field.raw.label }}</label>
-        {% endifnotequal %}
-        
-        <div class="controls">
-	        {%ifequal field.class "checkboxinput" %}
-		       	<label class="checkbox">
-		       		{{ field.raw }}
-		       		{{ field.raw.help_text|safe}}
-		       	</label>        	
-	        {% else %}            
-		        {{ field.raw }}	            	            
-		    {% endifequal %}
-		    
-	        {% if field.raw.errors  %}
-	            <div class="{{ field.raw.auto_id }} help-inline">
-	            {% if field.raw.errors %}
-	                {% for error in field.raw.errors %}
-	                    {{error}}
-	                {% endfor %}
-	            {% endif %}
-	            </div>
-	        {% endif %}
-
-	        {% if field.raw.help_text and field.class != "checkboxinput" %}
-	        	<p class="help-block">{{ field.raw.help_text|safe}}</p>
-	        {% endif %}
+	{% if field.raw.is_hidden %}
+		{{ field.raw }}	
+	{% else %}
+	    {%if field.raw.starts_group %}
+	        <div class="group-cont {{ form.raw.group_class }}" id="{{field.raw.auto_id}}_group">
+	    {% endif %}
+	    <div class="control-group {%if forloop.first %}first{% endif %}{% if field.raw.errors  %} error{% endif %}" id="{{field.raw.auto_id}}_container">
 	        
-    	</div>
-    </div>
-    {%if field.raw.ends_group %}
-        </div>
+	        {% ifnotequal field.class "inputlabelwidget" %}
+	        	<label class="control-label {%if field.raw.field.required %} required{% endif %}" for="id_{{ field.raw.html_name }}">{{ field.raw.label }}</label>
+	        {% endifnotequal %}
+	            
+	        <div class="controls">
+		        {%ifequal field.class "checkboxinput" %}
+			       	<label class="checkbox">
+			       		{{ field.raw }}
+			       		{{ field.raw.help_text|safe}}
+			       	</label>        	
+		        {% else %}            
+			        {{ field.raw }}	            	            
+			    {% endifequal %}
+			    
+		        {% if field.raw.errors  %}
+		            <div class="{{ field.raw.auto_id }} help-inline">
+		            {% if field.raw.errors %}
+		                {% for error in field.raw.errors %}
+		                    {{error}}
+		                {% endfor %}
+		            {% endif %}
+		            </div>
+		        {% endif %}
+	
+		        {% if field.raw.help_text and field.class != "checkboxinput" %}
+		        	<p class="help-block">{{ field.raw.help_text|safe}}</p>
+		        {% endif %}
+		        
+	    	</div>
+	    </div>
+	    {%if field.raw.ends_group %}
+	        </div>
+	    {% endif %}
     {% endif %}
 {% endfor %}
 </fieldset>
