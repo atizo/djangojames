@@ -1,0 +1,28 @@
+<fieldset>
+{% for field in form %}
+    {% if field.is_hidden %}
+        {{ field }}
+    {% else %}
+		<div class="control-group {%if forloop.first %}first{% endif %}{% if field.errors  %} error{% endif %}" id="{{field.auto_id}}_container">
+	        <label class="control-label {%if field.field.required %} required{% endif %}" for="id_{{ field.html_name }}">{{ field.label }}</label>  
+	        <div class="controls">       
+			    {{ field }}	            	            
+
+		        {% if field.errors  %}
+		            <div class="{{ field.auto_id }} help-inline">
+		            {% if field.errors %}
+		                {% for error in field.errors %}
+		                    {{error}}
+		                {% endfor %}
+		            {% endif %}
+		            </div>
+		        {% endif %}
+	
+		        {% if field.help_text and field.class != "checkboxinput" %}
+		        	<p class="help-block">{{ field.help_text|safe}}</p>
+		        {% endif %}
+	    	</div>
+	    </div>
+    {% endif %}
+{% endfor %}
+</fieldset>
