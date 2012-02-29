@@ -17,8 +17,7 @@
 		            {% endif %}
 		            </div>
 		        {% endif %}
-	
-		        {% if field.help_text and field.class != "checkboxinput" %}
+		        {% if field.help_text %}
 		        	<p class="help-block">{{ field.help_text|safe}}</p>
 		        {% endif %}
 	    	</div>
