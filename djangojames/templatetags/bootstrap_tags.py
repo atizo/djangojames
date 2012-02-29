@@ -31,7 +31,18 @@ register = template.Library()
 @register.filter
 def as_bootstrap(form):
     """
-        Render a form as bootstrap2 compatible
+        Render a form bootstrap2 compatible
+        
+        Usage:
+            {% load bootstrap_tags %}
+            
+            <form method="POST" action="." class="form-horizontal">
+                {% csrf_token %}
+                {{ my_form|as_bootstrap }}
+                <div class="form-actions">
+                    <button type="submit" class="btn primary">Save</button>
+                </div>
+            </form>
     """
     template = get_template("bootstrap/form.html")
     c = Context({"form": form})
