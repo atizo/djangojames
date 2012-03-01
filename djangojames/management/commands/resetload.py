@@ -31,7 +31,9 @@ FIXTUERS_EXT = '.json'
 class Command(NoArgsCommand):
     option_list = NoArgsCommand.option_list + (
         make_option('-i', '--ignore_reset', action='store_true', dest='ignore_reset',
-            help='Do not extecute the reset command (equivalent to syncdb)'),                                                         
+            help='Do not extecute the reset command (equivalent to syncdb)'),        
+        make_option('-y', '--rebuild_haystack', action='store_true', dest='rebuild_haystack',
+            help='call haystack rebuild_index command'),                                                                                                       
     )
     help = "Drops and recreates database (from jsons)."
     
@@ -54,6 +56,7 @@ class Command(NoArgsCommand):
         from django.core.management import call_command
         
         ignore_reset = options.get('ignore_reset', False)
+        rebuild_haystack = options.get('rebuild_haystack', False)
         db = options.get('database', DEFAULT_DB_ALIAS)       
         database_config = settings.DATABASES[db]
         
@@ -73,3 +76,7 @@ class Command(NoArgsCommand):
         
         sys.stdout.write("Load fixtures: %s\n" % " ".join(fixtures))
         call_command('loaddata', *fixtures)
+        
+        if rebuild_haystack:
+            call_command('rebuild_index', interactive=False)
+
