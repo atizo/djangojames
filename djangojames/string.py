@@ -20,16 +20,24 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-from django.utils.translation import ugettext as _, ugettext_lazy
+from django.utils.translation import ugettext as _
 import re
 import sys
 import unicodedata
+from django.utils.encoding import force_unicode
    
 def humanize_bool(a_bool):
     if a_bool:
         return _(u'Ja')
     else:
         return _(u'Nein')
+
+def strip_empty_tags(value):
+    return re.sub(r"""(?im)<(?!\s*/)\s*[^>]*?>\s*<s*/\s*[^>]*?>""", '', force_unicode(value))
+    
+def strip_tags(value, taglist):
+    tags = '|'.join(taglist)
+    return re.sub(r'<\s*(%(tags)s)\s*[^>]*?>|<\s*/\s*(%(tags)s)\s*[^>]*?>' % {'tags':tags}, '', force_unicode(value))
 
 CHAR_REPLACEMENT = {
     # latin-1 characters that don't have a unicode decomposition

@@ -49,5 +49,21 @@ def natural_copy(from_object, to_model_instance, exclude=None, ignore_blank=Fals
     else:
         raise TypeError('Not Supported Type %s ' % type(from_object))
     
+
+def unique_text(text, model_klass, field, exclude_fields_dict=None):
+    
+    kwargs = {'%s__istartswith' % field:text}
+    # conact queryset
+    qs = model_klass.objects.filter(**kwargs)
+    if exclude_fields_dict:
+        qs = qs.exclude(**exclude_fields_dict)
+        
+    # extract the existing values and get their postfix
+    others = [int(getattr(other, field).replace(text, "0")) for other in qs if getattr(other, field).replace(text, "0").isdigit()]
+    # do we need a postfix?
+    if len(others) > 0 and 0 in others:
+        text = "%s%d" % (text, max(others) + 1)
+    return text    
+    
     
     
