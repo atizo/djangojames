@@ -34,7 +34,7 @@ class SetVarNode(template.Node):
         self.avar = avar
         self.try_cast = try_cast
     def render(self, context): 
-        if self.try_cast:
+        if self.try_cast and isinstance(self.aval, str):
             if self.aval.isdigit():
                 self.aval = int(self.aval)
             elif self.aval.lower() in BOOLS.keys():
