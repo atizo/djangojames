@@ -12,16 +12,16 @@
 	        {% ifnotequal field.class "inputlabelwidget" %}
 	        	<label class="control-label {%if field.raw.field.required %} required{% endif %}" for="id_{{ field.raw.html_name }}">{{ field.raw.label }}</label>
 	        {% endifnotequal %}
-	            
+
 	        <div class="controls">
-		        {%ifequal field.class "checkboxinput" %}
+		        {%if field.class == "checkboxinput" or field.class == "checkboxselectmultiple"  %}
 			       	<label class="checkbox">
 			       		{{ field.raw }}
 			       		{{ field.raw.help_text|safe}}
 			       	</label>        	
 		        {% else %}            
 			        {{ field.raw }}	            	            
-			    {% endifequal %}
+			    {% endif %}
 			    
 		        {% if field.raw.errors  %}
 		            <div class="{{ field.raw.auto_id }} help-inline">
