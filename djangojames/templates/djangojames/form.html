@@ -14,12 +14,12 @@
 	        {% endifnotequal %}
 
 	        <div class="controls">
-		        {%if field.class == "checkboxinput" or field.class == "checkboxselectmultiple"  %}
+		        {%if field.class == "checkboxinput"  %}
 			       	<label class="checkbox">
 			       		{{ field.raw }}
 			       		{{ field.raw.help_text|safe}}
-			       	</label>        	
-		        {% else %}            
+			       	</label>         	
+		        {% else %}         
 			        {{ field.raw }}	            	            
 			    {% endif %}
 			    
