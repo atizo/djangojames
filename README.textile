@@ -8,9 +8,10 @@ h2. Some usfull features:
 * Some Form validation helpers
 * Thumbnail Model Field with advanced cropping methods (based on "django-thumbs":http://code.google.com/p/django-thumbs/)
 * Export instances as csv
+* Simple XLS Response (including multiple sheets)
 * Easy statistics with "Highchart.js":http://www.highcharts.com/
 * Improved admin theme with "django-admin-tools":https://bitbucket.org/izi/django-admin-tools/
-** Easy statistics admin module
+* Advanced statistics admin module (including Goggle Analytics Stats)
 
 h2. Additional Management commands:
 

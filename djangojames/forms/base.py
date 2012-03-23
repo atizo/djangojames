@@ -111,7 +111,6 @@ class MetaBaseForm(object):
             field.widget.attrs['disabled'] = "disabled"
                 
 class NiceForm(MetaBaseForm):
-    
     render_template = 'djangojames/form.html'
     
     def as_nice(self):
@@ -122,10 +121,8 @@ class NiceForm(MetaBaseForm):
         form = {'raw': self, 'fields': []}
         
         for index, field in enumerate(self):
-            
             field.starts_group = self._starts_group(field.name)
             field.ends_group = self._ends_group(field.name)
-            
             form['fields'].append({'raw': field, 'class': field.field.widget.__class__.__name__.lower()})
 
         return mark_safe(render_to_string(self.render_template, dict(context, **{'form':form})))
@@ -134,8 +131,10 @@ class NiceForm(MetaBaseForm):
         return self.as_nice()
 
     def _has_groups(self):
-        return hasattr(self, 'Meta') and hasattr(self.Meta, 'groups')
-
+        if not hasattr(self, '__has_groups'):
+            self.__has_groups = hasattr(self, 'Meta') and hasattr(self.Meta, 'groups')
+        return self.__has_groups
+        
     def _starts_group(self, fieldname):
         if self._has_groups():
             if not hasattr(self, '__group_start'):
