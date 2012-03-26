@@ -50,7 +50,7 @@ class Command(NoArgsCommand):
    
     def handle_noargs(self, **options):
         from django.conf import settings
-        from django.db import connection, models
+        from django.db import models
         from django.core.management.sql import  emit_post_sync_signal
         from django.db.utils import DEFAULT_DB_ALIAS
         from django.core.management import call_command
@@ -63,9 +63,8 @@ class Command(NoArgsCommand):
         if not ignore_reset:
             reset_schema(database_config)
 
-        # Reinstall the initial_data fixture.
-        from django.core.management.commands import syncdb
-        syncdb.Command().execute(noinput=True)
+        # init db schema
+        call_command('syncdb', interactive=False)
         
         # Emit the post sync signal. This allows individual
         # applications to respond as if the database had been
@@ -75,6 +74,7 @@ class Command(NoArgsCommand):
         fixtures = self._find_fixtures(settings.PROJECT_ROOT)
         
         sys.stdout.write("Load fixtures: %s\n" % " ".join(fixtures))
+        # Reinstall the initial_data fixture.
         call_command('loaddata', *fixtures)
         
         if rebuild_haystack:
