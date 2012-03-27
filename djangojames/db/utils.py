@@ -60,10 +60,13 @@ def reset_schema(database_config):
             'USE %s' % database_config['NAME']
         )
     elif db_engine == 'sqlite3':
-        db_path = os.path.join(settings.PROJECT_ROOT, database_config['NAME'])
+        db_path = database_config['NAME']
         if os.path.exists(db_path):
             print "Remove sqlite3 db file: %s" % db_path
             os.remove(db_path)
+        else:
+            print "File does not exists: %s" % db_path
+            
     else:
         raise NotImplementedError, "This database backend is not yet supported: %s" % db_engine
     
