@@ -170,7 +170,7 @@ $(document).ready(function(){
 	    html += '</tbody></table></div></div>';
 	    choiceContainer.append(html);
 	    
-	    choiceContainer.find('input[name='+prefix+']').live('click', djangojames.statistics.clickChoice);;
+	    choiceContainer.find('input[name='+prefix+']').live('click', djangojames.statistics.clickChoice);
 	    choiceContainer.find('input[name='+prefix+']:checked').click();
 	});
 });

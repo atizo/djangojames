@@ -47,3 +47,27 @@ def as_bootstrap(form):
     template = get_template("bootstrap/form.html")
     c = Context({"form": form})
     return template.render(c)
+
+@register.filter
+def as_bootstrap_field(field):
+    """
+        Render a form bootstrap2 compatible
+        
+        Usage:
+            {% load bootstrap_tags %}
+            
+            <form method="POST" action="." class="form-horizontal">
+                {% csrf_token %}
+                <fieldset>
+                {{ form.field1 |as_bootstrap_field }}
+                {{ form.field2 |as_bootstrap_field }}
+                {{ form.field3 |as_bootstrap_field }}
+                <div class="form-actions">
+                    <button type="submit" class="btn primary">Save</button>
+                </div>
+                </fieldset>
+            </form>
+    """
+    template = get_template("bootstrap/field.html")
+    c = Context({"field": field})
+    return template.render(c)
