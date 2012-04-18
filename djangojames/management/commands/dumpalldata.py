@@ -67,7 +67,7 @@ class Command(BaseCommand):
             print '%d to %s' % (len(objects), json_file) 
             f = open(json_file, 'w')
             try:
-                f.write(serializers.serialize(DUMP_FORMAT, objects, indent=DUMP_INDENT, use_natural_keys=True))
+                f.write(serializers.serialize(DUMP_FORMAT, objects, indent=DUMP_INDENT, use_natural_keys=False))
             except Exception, e:
                 raise CommandError("Unable to serialize database: %s" % e)                
             f.close()
