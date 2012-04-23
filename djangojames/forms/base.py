@@ -27,6 +27,8 @@ from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
+from widgets import Html5DateInput
+
 class MetaBaseForm(object):
     def exists_all(self, fieldlist):
         return all([ f in self.cleaned_data and (
@@ -124,6 +126,8 @@ class NiceForm(MetaBaseForm):
             field.starts_group = self._starts_group(field.name)
             field.ends_group = self._ends_group(field.name)
             form['fields'].append({'raw': field, 'class': field.field.widget.__class__.__name__.lower()})
+            if issubclass(type(field.field), forms.fields.DateField):
+                field.field.widget = Html5DateInput()
 
         return mark_safe(render_to_string(self.render_template, dict(context, **{'form':form})))
 
