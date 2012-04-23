@@ -25,6 +25,8 @@ from django.forms.widgets import Select
 from django.utils.safestring import mark_safe
 from django import forms
 
+from widgets import Html5DateTimeInput
+
 class InputLabelWidget(Select):
         
     def render(self, name, value, attrs=None, choices=()):
@@ -68,4 +70,4 @@ class LabelIntegerField(forms.IntegerField):
     def widget_attrs(self, widget):
         if self.label:
             return {'label': u'%s' % self.label}
-        return {}        
+        return {}

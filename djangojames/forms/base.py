@@ -21,13 +21,13 @@
 #
 
 from django import forms
-from django.forms.util import ValidationError
+from django.forms.util import ValidationError, ErrorList
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
-from widgets import Html5DateInput, Html5TimeInput
+from widgets import Html5DateInput, Html5TimeInput, Html5DateTimeInput
 
 class MetaBaseForm(object):
     def exists_all(self, fieldlist):
@@ -126,10 +126,6 @@ class NiceForm(MetaBaseForm):
             field.starts_group = self._starts_group(field.name)
             field.ends_group = self._ends_group(field.name)
             form['fields'].append({'raw': field, 'class': field.field.widget.__class__.__name__.lower()})
-            if issubclass(type(field.field), forms.fields.DateField):
-                field.field.widget = Html5DateInput()
-            elif issubclass(type(field.field), forms.fields.TimeField):
-                field.field.widget = Html5TimeInput()
 
         return mark_safe(render_to_string(self.render_template, dict(context, **{'form':form})))
 
@@ -156,7 +152,24 @@ class NiceForm(MetaBaseForm):
         return False
 
 class BaseModelForm(NiceForm, forms.ModelForm):
-    pass
+    def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None,
+                 initial=None, error_class=ErrorList, label_suffix=':',
+                 empty_permitted=False, instance=None):
+        super(BaseModelForm, self).__init__(data, files, auto_id, prefix,
+            initial, error_class, label_suffix,
+            empty_permitted, instance)
+        for index, field in enumerate(self):
+            if issubclass(type(field.field), forms.fields.DateField):
+                field.field.widget = Html5DateInput()
+            elif issubclass(type(field.field), forms.fields.TimeField):
+                field.field.widget = Html5TimeInput()
+            elif issubclass(type(field.field), forms.fields.DateTimeField):
+                field.field.widget = Html5DateTimeInput()
+                input_formats = ["%Y-%m-%dT%H:%M"]
+                for format in field.field.input_formats:
+                    input_formats.append(format)
+
+                field.field.input_formats = input_formats
 
 class BaseForm(NiceForm, forms.Form):
     pass
