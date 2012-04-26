@@ -26,6 +26,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 class MetaBaseForm(object):
     def exists_all(self, fieldlist):
@@ -109,9 +110,11 @@ class MetaBaseForm(object):
     def disable_form(self):
         for field in self.fields.values():
             field.widget.attrs['disabled'] = "disabled"
-                
+
+FORM_RENDER_TEMPLATE = getattr(settings, 'JAMES_FORM_RENDER_TEMPLATE', 'djangojames/form.html')
+
 class NiceForm(MetaBaseForm):
-    render_template = 'djangojames/form.html'
+    render_template = FORM_RENDER_TEMPLATE
     
     def as_nice(self):
         return self._render()
@@ -123,7 +126,14 @@ class NiceForm(MetaBaseForm):
         for index, field in enumerate(self):
             field.starts_group = self._starts_group(field.name)
             field.ends_group = self._ends_group(field.name)
-            form['fields'].append({'raw': field, 'class': field.field.widget.__class__.__name__.lower()})
+            
+            widget = field.field.widget
+            field.widgetclass = widget.__class__.__name__.lower()
+            
+            if isinstance(widget, forms.TextInput):
+                field.field.widget.attrs['class'] = widget.attrs.get('class', '') + ' input-text'
+            
+            form['fields'].append({'raw': field, 'class': field.widgetclass})
 
         return mark_safe(render_to_string(self.render_template, dict(context, **{'form':form})))
 

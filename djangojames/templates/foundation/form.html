@@ -1,0 +1,18 @@
+<fieldset>
+{% csrf_token %}
+{% for field in form.fields %}
+	{% if field.raw.is_hidden %}
+		{{ field.raw }}	
+	{% else %}
+	    {%if field.raw.starts_group %}
+	        <div class="group-cont {{ form.raw.group_class }}" id="{{field.raw.auto_id}}_group">
+	    {% endif %}
+	    
+   		{% include "foundation/templatetags/field.html" with field=field.raw  %}
+   		
+	    {%if field.raw.ends_group %}
+	        </div>
+	    {% endif %}
+    {% endif %}
+{% endfor %}
+</fieldset>
