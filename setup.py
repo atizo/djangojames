@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
     name='djangojames',
@@ -7,6 +7,9 @@ setup(
     author='Marcel Eyer',
     author_email='me@maersu.ch',
     url='https://github.com/atizo/djangojames',
-    packages=['djangojames'],
+    packages=find_packages(),
     zip_safe=False,
+    install_requires=[
+        'python-googleanalytics',
+    ],    
 )
