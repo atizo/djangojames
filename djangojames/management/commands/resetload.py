@@ -40,13 +40,17 @@ class Command(NoArgsCommand):
     def _find_fixtures(self, start_dir):
         """ find all JSON files (except those in Unit Test Folder or initial_data) """
         fixtures = []
+        django_fixtures = []
         def _find(arg, dirname, names):
             if (dirname.endswith('fixtures')) and (dirname.find('unit_test')==-1):
                 for name in names:
                     if (name.endswith(FIXTUERS_EXT)) and (name.find('initial_data')==-1):
-                        fixtures.append(name.replace(FIXTUERS_EXT, ''))
+                        if name.startswith('django_'):
+                            django_fixtures.append(name.replace(FIXTUERS_EXT, ''))
+                        else:
+                            fixtures.append(name.replace(FIXTUERS_EXT, ''))
         os.path.walk(start_dir, _find, None)
-        return fixtures
+        return [django_fixtures, fixtures]
    
     def handle_noargs(self, **options):
         from django.conf import settings
@@ -71,11 +75,11 @@ class Command(NoArgsCommand):
         # sync'd from scratch.
         emit_post_sync_signal(models.get_models(), 0, 0, db)
         # get all fixtures
-        fixtures = self._find_fixtures(settings.PROJECT_ROOT)
+        fixtures_blocks = self._find_fixtures(settings.PROJECT_ROOT)
         
-        sys.stdout.write("Load fixtures: %s\n" % " ".join(fixtures))
-        # Reinstall the initial_data fixture.
-        call_command('loaddata', *fixtures)
+        for fixtures in fixtures_blocks:
+            sys.stdout.write("Load fixtures: %s\n" % " ".join(fixtures))
+            call_command('loaddata', *fixtures)
         
         if rebuild_haystack:
             call_command('rebuild_index', interactive=False)
