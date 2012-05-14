@@ -38,7 +38,6 @@ EXCLUDE_MODEL = ['Permission', 'LogEntry', 'AsyncExecution']
 EXCLUDE_APPS = ['django.contrib.sessions', 
                 'django.contrib.contenttypes', 
                 'rosetta',
-                'django.contrib.sites',
                 'django_extensions'
                 ]
 
