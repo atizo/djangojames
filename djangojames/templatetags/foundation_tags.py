@@ -26,11 +26,12 @@ from django.template import Context
 from django.template.loader import get_template
 from django import template
 from django import forms
+from django.forms.widgets import Input
 
 register = template.Library()
 
 def _handle_field(boundfield):
-    if isinstance(boundfield.field.widget, forms.TextInput):
+    if issubclass(boundfield.field.widget.__class__, Input):
         boundfield.field.widget.attrs['class'] = boundfield.field.widget.attrs.get('class', '') + ' input-text'
     boundfield.widgetclass = boundfield.field.widget.__class__.__name__.lower()
 
