@@ -25,6 +25,7 @@ TOP_CENTER = 'tc'
 MIDDLE_CENTER = 'mc'
 BOTTOM_CENTER = 'bc'
 BOTTOM_LEFT = 'bl'
+TOP_LEFT = 'tl'
 
 DEFAULT_EXTENSION = 'png'
 
@@ -200,7 +201,10 @@ def generate_thumb_square_generic(img, thumb_size, format, position=MIDDLE_CENTE
             top = thumb_size[1] - s[1]
         elif position == BOTTOM_LEFT:
             left = 0
-            top = thumb_size[1] - s[1]        
+            top = thumb_size[1] - s[1]
+        elif position == TOP_LEFT:
+            left = 0
+            top = 0              
         else:
             raise AttributeError("Unknown position. Has to be one of %s" % ", ".join([TOP_CENTER, MIDDLE_CENTER, BOTTOM_CENTER,BOTTOM_LEFT]))
             
@@ -228,6 +232,9 @@ def generate_thumb_square_top(img, thumb_size, format):
 
 def generate_thumb_bottom_left(img, thumb_size, format):
     return generate_thumb_square_generic(img, thumb_size, format, BOTTOM_LEFT)
+
+def generate_thumb_top_left(img, thumb_size, format):
+    return generate_thumb_square_generic(img, thumb_size, format, TOP_LEFT)
 
 def generate_thumb_button100(img, thumb_size, format):
     button_size = (100, 110)
