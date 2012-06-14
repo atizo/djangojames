@@ -25,49 +25,61 @@
 from django.template import Context
 from django.template.loader import get_template
 from django import template
+from django import forms
+from django.forms.widgets import Input
 
 register = template.Library()
 
+def _handle_field(boundfield):
+    if issubclass(boundfield.field.widget.__class__, Input):
+        boundfield.field.widget.attrs['class'] = boundfield.field.widget.attrs.get('class', '') + ' input-text'
+    boundfield.widgetclass = boundfield.field.widget.__class__.__name__.lower()
+
 @register.filter
-def as_bootstrap(form):
+def as_foundation(form):
     """
-        Render a form bootstrap2 compatible
+        Render a form foundation2 compatible
         
         Usage:
-            {% load bootstrap_tags %}
+            {% load foundation_tags %}
             
-            <form method="POST" action="." class="form-horizontal">
+            <form method="POST" action=".">
                 {% csrf_token %}
-                {{ my_form|as_bootstrap }}
+                {{ my_form|as_foundation }}
                 <div class="form-actions">
-                    <button type="submit" class="btn primary">Save</button>
+                    <button type="submit" class="button">Save</button>
                 </div>
             </form>
     """
-    template = get_template("bootstrap/form.html")
+    template = get_template("foundation/templatetags/form.html")
+
+    for field in form:
+        _handle_field(field)
+                
     c = Context({"form": form})
     return template.render(c)
 
 @register.filter
-def as_bootstrap_field(field):
+def as_foundation_field(field):
     """
-        Render a form bootstrap2 compatible
+        Render a form foundation compatible
         
         Usage:
-            {% load bootstrap_tags %}
+            {% load foundation_tags %}
             
-            <form method="POST" action="." class="form-horizontal">
+            <form method="POST" action=".">
                 {% csrf_token %}
                 <fieldset>
-                {{ form.field1 |as_bootstrap_field }}
-                {{ form.field2 |as_bootstrap_field }}
-                {{ form.field3 |as_bootstrap_field }}
+                {{ form.field1 |as_foundation_field }}
+                {{ form.field2 |as_foundation_field }}
+                {{ form.field3 |as_foundation_field }}
                 <div class="form-actions">
-                    <button type="submit" class="btn primary">Save</button>
+                    <button type="submit" class="button">Save</button>
                 </div>
                 </fieldset>
             </form>
     """
-    template = get_template("bootstrap/field.html")
+    template = get_template("foundation/templatetags/field.html")
+    _handle_field(field)
     c = Context({"field": field})
     return template.render(c)

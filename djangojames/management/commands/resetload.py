@@ -40,17 +40,21 @@ class Command(NoArgsCommand):
     def _find_fixtures(self, start_dir):
         """ find all JSON files (except those in Unit Test Folder or initial_data) """
         fixtures = []
+        django_fixtures = []
         def _find(arg, dirname, names):
             if (dirname.endswith('fixtures')) and (dirname.find('unit_test')==-1):
                 for name in names:
                     if (name.endswith(FIXTUERS_EXT)) and (name.find('initial_data')==-1):
-                        fixtures.append(name.replace(FIXTUERS_EXT, ''))
+                        if name.startswith('django_'):
+                            django_fixtures.append(name.replace(FIXTUERS_EXT, ''))
+                        else:
+                            fixtures.append(name.replace(FIXTUERS_EXT, ''))
         os.path.walk(start_dir, _find, None)
-        return fixtures
+        return [django_fixtures, fixtures]
    
     def handle_noargs(self, **options):
         from django.conf import settings
-        from django.db import connection, models
+        from django.db import models
         from django.core.management.sql import  emit_post_sync_signal
         from django.db.utils import DEFAULT_DB_ALIAS
         from django.core.management import call_command
@@ -63,19 +67,19 @@ class Command(NoArgsCommand):
         if not ignore_reset:
             reset_schema(database_config)
 
-        # Reinstall the initial_data fixture.
-        from django.core.management.commands import syncdb
-        syncdb.Command().execute(noinput=True)
+        # init db schema
+        call_command('syncdb', interactive=False)
         
         # Emit the post sync signal. This allows individual
         # applications to respond as if the database had been
         # sync'd from scratch.
         emit_post_sync_signal(models.get_models(), 0, 0, db)
         # get all fixtures
-        fixtures = self._find_fixtures(settings.PROJECT_ROOT)
+        fixtures_blocks = self._find_fixtures(settings.PROJECT_ROOT)
         
-        sys.stdout.write("Load fixtures: %s\n" % " ".join(fixtures))
-        call_command('loaddata', *fixtures)
+        for fixtures in fixtures_blocks:
+            sys.stdout.write("Load fixtures: %s\n" % " ".join(fixtures))
+            call_command('loaddata', *fixtures)
         
         if rebuild_haystack:
             call_command('rebuild_index', interactive=False)

@@ -1,0 +1,37 @@
+{% if field.is_hidden %}
+    {{ field }}
+{% else %}
+
+	{% if field.errors  %}
+		<div class="form-field error">
+	{% endif %}
+	
+	<label class="{%if field.field.required %} required{% endif %}" for="id_{{ field.html_name }}">
+	{%if field.widgetclass != "checkboxinput"  %} 
+		{{ field.label }}</label>  
+	{% endif %}
+	
+	{{ field }}	            	            
+	{% if field.errors  %}
+	    <small>
+	    {% if field.errors %}
+	        {% for error in field.errors %}
+	            {{error}}
+	        {% endfor %}
+	    {% endif %}
+	    </small>
+	{% endif %}
+	
+	{% if field.help_text %}
+		<p class="help-block">{{ field.help_text|safe}}</p>
+	{% endif %}
+	
+	{%if field.widgetclass == "checkboxinput"  %} 
+		{{ field.label }}</label>  
+	{% endif %}
+		
+	{% if field.errors  %}
+		</div>
+	{% endif %}
+	
+{% endif %}
